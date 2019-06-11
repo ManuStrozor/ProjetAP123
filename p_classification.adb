@@ -5,21 +5,23 @@ package body P_Classification is
 	 -- {L non trié},=> {résultat = indice si L contient le mot}
 	 I : Integer:= L'first;
       begin
-	 while I < L'Last+1 and then L(I).chaine < mot loop
+	 --Put_Line(">" & Mot & "<");
+	 while I < L'Last+1 and then L(I).Chaine /= mot loop
+	    --Put_Line("chaine: " & L(I).Chaine);
 	    I := I + 1;
 	 end loop;
 	 return I;
       end RechmotdansL;
-      Total: Integer:=0;
-      Indice: Natural;
+      Total : Integer := 0;
+      Indice : Natural;
    begin
       for I in D.Texte'Range loop
-	 Indice:=RechmotdansL(D.Texte(I),L);
-	 if Indice/=L'Last+1 then 
-	    total:=total+L(Indice).poids;
+	 Indice := RechmotdansL(D.Texte(I), L);
+	 if Indice /= L'Last+1 then
+	    Total := Total + L(Indice).Poids;
 	 end if;
       end loop;
-      return total;
+      return Total;
    end Score;
    
    function Max_Score(VS : in TV_Score) return T_Categorie is
