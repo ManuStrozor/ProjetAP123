@@ -1,22 +1,21 @@
---g)
-
-with P_Classification, Text_io, P_Lexique;
-use P_Classification, Text_io, P_Lexique;  
+with P_Classification, Text_Io, P_Lexique;
+use P_Classification, Text_Io, P_Lexique;  
 
 procedure P2 is
-   mot: String(1..30);
-   Nbcar: Natural:=0;
+   Rep : String(1..30);
+   QUIT : String(1..30) := ('q', others => ' ');
+   Ln : Integer;
 begin
    declare
-      L: TV_Lexique(1..Nb_Mots("POLITIQUE.txt"));
-      I: Integer:= L'First;
+      Lp : TV_Lexique(1..Nb_Mots("POLITIQUE.txt"));
    begin
-      Init_Lexique("POLITIQUE.txt", L);
-      Put("Saisir un mot qui est dans le lexique POLITIQUE: ");
-      Get_Line(Mot(1..Nbcar),Nbcar);
-      --  while I<L'Last+1 and then Mot<L(I).Chaine loop
-      --  	 I:=I+1;
-      --  end loop;
-      Put_line("Le poids du mot "&mot&": "&Integer'Image(Poids_Mot(L(I).Chaine,L)));
+      Init_Lexique("POLITIQUE.txt", Lp);
+      
+      loop
+	 Put("Saisir un mot qui est dans le lexique POLITIQUE: ");
+	 Get_Line(Rep, Ln);
+	 exit when Rep = QUIT;
+	 Put_line("Le poids du mot " & Rep(1..Ln) & ": " & Integer'Image(Poids_Mot(Rep(1..Ln), Lp)));
+      end loop;
    end;
-end P2;   
+end;   

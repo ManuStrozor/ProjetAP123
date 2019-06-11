@@ -17,15 +17,16 @@ package body P_Lexique is
       return Nb;
    end;
    
+   function Trim(Str : in String; Ln : in Integer) return String is
+      --{}={résultat = ajoute des espaces à la suite du str pour faire ln taille} 
+      Tmp : String(1..Ln-Str'Length) := (others => ' ');
+   begin
+      return Str & Tmp;
+   end;
+   
    procedure Init_Lexique(Nomfic: in String; L : out Tv_lexique) is
    -- {On suppose que la taille du vecteur L correspond exactement au nombre de mots contenus dans le fichier}
    -- => {Range dans le vecteur L, les mots contenus dans le fichier lexique Nomfic et les poids associés}
-      function Trim(Str : in String; Ln : in Integer) return String is
-      --{}={résultat = ajoute des espaces à la suite du str pour faire ln taille} 
-	 Tmp : String(1..Ln-Str'Length) := (others => ' ');
-      begin
-	 return Str & Tmp;
-      end;
       F : Text_Io.File_Type;
       Str : String(1..32);
       Ln, I : Integer := L'first;
@@ -44,7 +45,7 @@ package body P_Lexique is
     -- {} => {résultat = le poids de M dans le lexique L et 0 si le mot n'est pas présent dans le lexique}
       I : Integer := L'First;
    begin
-      while I <= L'Last and then L(I).Chaine /= M loop
+      while I <= L'Last and then L(I).Chaine /= Trim(M, 30) loop
 	 I := I + 1;
       end loop;
       if I = L'Last+1 then
