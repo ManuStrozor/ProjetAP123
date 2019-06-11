@@ -5,13 +5,11 @@ package body P_Classification is
 	 -- {L non trié},=> {résultat = indice si L contient le mot}
 	 I : Integer:= L'first;
       begin
-	 --Put_Line(">" & Mot & "<");
 	 while I < L'Last+1 and then L(I).Chaine /= mot loop
-	    --Put_Line("chaine: " & L(I).Chaine);
 	    I := I + 1;
 	 end loop;
 	 return I;
-      end RechmotdansL;
+      end;
       Total : Integer := 0;
       Indice : Natural;
    begin
@@ -25,7 +23,7 @@ package body P_Classification is
    end Score;
    
    function Max_Score(VS : in TV_Score) return T_Categorie is
-   -- {} => {resultat = Catégorie ayant le score maximal dans VS}
+      -- {} => {resultat = Catégorie ayant le score maximal dans VS}
       Max : Integer := VS(VS'first);
       Cat : T_Categorie := VS'first;
    begin
@@ -39,7 +37,7 @@ package body P_Classification is
    end;
    
    procedure Run (VD : in TV_Depeche; Lp, Ls, Lc, Le, Lt : TV_Lexique; Nomfic : String) is
-   -- {} => {Génère le fichier texte réponse Nomfic étant donné les dépêches et les lexiques passés en argument}
+      -- {} => {Génère le fichier texte réponse Nomfic étant donné les dépêches et les lexiques passés en argument}
       F : Text_Io.File_Type;
       Sc : TV_Score;
       MSc : T_Categorie;
@@ -64,7 +62,7 @@ package body P_Classification is
 	 Put_Line(F, Image(I) & ':' & Integer'Image(Counter(I)));
 	 Moy := Moy + Float(Counter(I));
       end loop;
-      Put_Line(F, "MOYENNE:" & Float'Image(Moy/5.0));
+      Put(F, "MOYENNE:" & Image(Moy/5.0));
    end;
    
 end P_Classification;
