@@ -14,6 +14,23 @@ package body p_generation is
       end if;
    end;
    
+   procedure Init_Dico(VD: in Tv_Depeche; C: in T_Categorie; VM: out Tv_Dico; N: out Integer) is
+      -- {} => {Charge Dans VM Tous Les Mots Présents Dans Au Moins Une Dépêche De La Catégorie C Du Vecteur De Dépêches VD. Attention, Même Si Le Mot Est Présent Plusieurs Fois, Il Ne Doit Apparaître Qu'Une Fois Dans Le Vecteur VM. La Procédure Initialise Aussi Tous Les Scores À 0 Et range Dans N Le Nombre De Mots Ajoutés Dans VM }
+   begin
+      VM := (others => ((others => ' '), 0));
+      N := 0;
+      for I in VD'Range loop
+	 if VD(I).Cat = C then
+	    for J in VD(I).Texte'Range loop
+	       if Recherche(VM, N, VD(I).Texte(J)) = -1 and N < VM'last then
+		  VM(VM'First+N).Mot := VD(I).Texte(J);
+		  N := N + 1;
+	       end if;
+	    end loop;
+	 end if;
+      end loop;
+   end;
+   
    procedure Calcul_Scores(VD : in Tv_Depeche; C : in T_Categorie; VM : in out Tv_Dico; N : in Integer) is
       -- {} => {Cette procédure met à jour les scores des différents mots présents dans VM. Lorsqu'un mot présent dans VM apparaît dans une dépêche du vecteur VD,
       -- son score est décrémenté si la dépêche n'est pas dans la catégorie C
@@ -21,14 +38,21 @@ package body p_generation is
       Indice : Integer;
    begin
       for I in VD'Range loop
-	 for J in VD(i).Texte'Range loop
-	    Indice := Recherche(VM, N, VD(I).Texte(J));
-	    if Indice /= -1 and VD(I).Cat = C then
-	       VM(Indice).Score := VM(Indice).Score + 1;
-	    elsif Indice /= -1 and VD(I).Cat /= C then
-	       VM(Indice).Score := VM(Indice).Score - 1;
-	    end if;
-	 end loop;
+	 if VD(I).Cat = C then
+	    for J in VD(I).Texte'Range loop
+	       Indice := Recherche(VM, N, VD(I).Texte(J));
+	       if Indice /= -1 then
+		  VM(Indice).Score := VM(Indice).Score + 1;
+	       end if;
+	    end loop;
+	 else
+	    for J in VD(I).Texte'Range loop
+	       Indice := Recherche(VM, N, VD(I).Texte(J));
+	       if Indice /= -1 then
+		  VM(Indice).Score := VM(Indice).Score - 1;
+	       end if;
+	    end loop;
+	 end if;
       end loop;      
    end;
    
