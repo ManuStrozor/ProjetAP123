@@ -37,32 +37,33 @@ package body P_Classification is
    
    procedure Run (VD : in TV_Depeche; Lp, Ls, Lc, Le, Lt : TV_Lexique; Nomfic : String) is
       F : Text_Io.File_Type;
+      Sc : TV_Score;
+      MSc : T_Categorie;
       type TV_Cnt is array(T_Categorie) of Integer;
       Counter : TV_Cnt := (others => 0);
       Moy : Float := 0.0;
    begin
-      Open(F, Out_File, Nomfic);
+      Create(F, Out_File, Nomfic);
       for I in VD'Range loop
 	 Put_Line(F, VD(i).Id & ':' & Image(VD(I).Cat));
 	 
-	 if VD(I).Cat = Politique then
-	    Counter(VD(I).Cat) := Counter(VD(I).Cat) + Score(VD(I), Lp);
-	 elsif VD(I).Cat = Sports then
-	    Counter(VD(I).Cat) := Counter(VD(I).Cat) + Score(VD(I), Ls);
-	 elsif VD(I).Cat = Culture then
-	    Counter(VD(I).Cat) := Counter(VD(I).Cat) + Score(VD(I), Lc);
-	 elsif VD(I).Cat = Economie then
-	    Counter(VD(I).Cat) := Counter(VD(I).Cat) + Score(VD(I), Le);
-	 else
-	    Counter(VD(I).Cat) := Counter(VD(I).Cat) + Score(VD(I), Lt);
+	 Sc(Politique) := Score(VD(i), Lp);
+	 Sc(Sports) := Score(VD(i), Ls);
+	 Sc(Culture) := Score(VD(i), Lc);
+	 Sc(Economie) := Score(VD(i), Le);
+	 Sc(Science) := Score(VD(i), Lt);
+	 MSc := Max_Score(Sc);
+	 
+	 if VD(I).Cat = MSc then
+	    Counter(VD(I).Cat) := Counter(VD(I).Cat) + 1;
 	 end if;
 	 
       end loop;
       for I in T_Categorie loop
-	 Put_Line(Image(I) & ':' & Integer'Image(Counter(I)));
+	 Put_Line(F, Image(I) & ':' & Integer'Image(Counter(I)));
 	 Moy := Moy + Float(Counter(I));
       end loop;
-      Put_Line("MOYENNE:" & Float'Image(Moy/5.0));
+      Put_Line(F, "MOYENNE:" & Float'Image(Moy/5.0));
    end;
    
 end P_Classification;
