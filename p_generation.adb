@@ -56,4 +56,18 @@ package body p_generation is
       end loop;      
    end;
    
+   function Poids_Score(S : in Integer) return Integer is
+      -- {} => {resultat = valeur du poids à attribuer étant donné un score S}
+   begin
+      if S > 12 then
+	 return 3;
+      elsif S > 6 then
+	 return 2;
+      elsif S > 0 then
+	 return 1;
+      else
+	 return 0;
+      end if;
+   end;
+   
 end p_generation;
