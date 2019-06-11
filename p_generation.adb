@@ -1,5 +1,19 @@
 package body p_generation is
    
+   function Recherche(VM: in Tv_Dico; N: in Integer; M: in String) return Integer is
+      -- {} => {Resultat= Indice Du Mot M Dans Le Vecteur VM Si Il Est Présent Et -1 Sinon. N Est Le Nombre De Mots Rangés Dans Le vecteur}
+      I : Integer := VM'first;
+   begin
+      while I < VM'First+N and then VM(I).Mot /= M loop
+	 I := I + 1;
+      end loop;
+      if I >= VM'First+N then
+	 return -1;
+      else
+	 return I;
+      end if;
+   end;
+   
    procedure Calcul_Scores(VD : in Tv_Depeche; C : in T_Categorie; VM : in out Tv_Dico; N : in Integer) is
       -- {} => {Cette procédure met à jour les scores des différents mots présents dans VM. Lorsqu'un mot présent dans VM apparaît dans une dépêche du vecteur VD,
       -- son score est décrémenté si la dépêche n'est pas dans la catégorie C
