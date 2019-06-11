@@ -12,9 +12,6 @@ package P_Lexique is
    function Nb_Mots(Nomfic : in String) return Integer;
    -- {} => {résultat = nombre de lignes du fichier Nomfic et donc de mots dans le lexique correspondant}
    
-   function Trim(Str : in String; Ln : in Integer) return String;
-   --{}={résultat = ajoute des espaces à la suite du str pour faire ln taille} 
-   
    procedure Init_Lexique(Nomfic: in String; L : out Tv_lexique);
    -- {On suppose que la taille du vecteur L correspond exactement au nombre de mots contenus dans le fichier}
    -- => {Range dans le vecteur L, les mots contenus dans le fichier lexique Nomfic et les poids associés}
