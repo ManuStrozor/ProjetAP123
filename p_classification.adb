@@ -64,7 +64,7 @@ package body P_Classification is
 	 Put_Line(F, Image(I) & ':' & Integer'Image(Counter(I)));
 	 Moy := Moy + Float(Counter(I));
       end loop;
-      Put_Line(F, "MOYENNE:" & Float'Image(Moy/5.0));
+      Put(F, "MOYENNE:" & Image(Moy/5.0));
    end;
    
 end P_Classification;
