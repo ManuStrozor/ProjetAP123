@@ -70,4 +70,20 @@ package body p_generation is
       end if;
    end;
    
+   procedure Generation_Lexique (VD: in Tv_Depeche; C : in T_Categorie; Fl: in String) is
+     --   {} => {Cette Procédure Créé Pour La Catégorie C Le Fichier Lexique De Nom Fl À Partir Du Vecteur De Dépêches De Nom VD. Cette Procédure Doit Déclarer Un Vecteur De type TV_Dico Puis Le Remplir En Utilisant Init_Dico, Puis Calcul_Scores Et Enfin Utiliser Le Vecteur Résultant Pour Créer Un Fichier Lexique En Utilisant La Fonction Poids_Score}
+     F : File_Type;
+     VM : TV_Dico;
+     N : Integer := 0;
+   begin
+      Create(F, Out_File, Fl);
+      Init_Dico(Vd, C, VM, N);
+      Calcul_Scores(VD, C, VM, N);
+      for I in Vm'First..N loop
+         if VM(I).Score > 0 then
+            Put_line(Fl, Vm(I).Mot & ":" & Integer'Image(Poids_Score(Vm(I).Score));
+         end if;
+      end loop;
+   end;
+   
 end p_generation;

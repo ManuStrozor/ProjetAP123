@@ -21,7 +21,7 @@ package p_generation is
    function Poids_Score(S : in Integer) return Integer;
    -- {} => {resultat = valeur du poids à attribuer étant donné un score S}
    
-   --procedure Generation_Lexique(VD: in Tv_Depeche; C : in T_Categorie; Fl: in String);
+   procedure Generation_Lexique(VD: in Tv_Depeche; C : in T_Categorie; Fl: in String);
    -- {} => {Cette Procédure Créé Pour La Catégorie C Le Fichier Lexique De Nom Fl À Partir Du Vecteur De Dépêches De Nom VD. Cette Procédure Doit Déclarer Un Vecteur De type TV_Dico Puis Le Remplir En Utilisant Init_Dico, Puis Calcul_Scores Et Enfin Utiliser Le Vecteur Résultant Pour Créer Un Fichier Lexique En Utilisant La Fonction Poids_Score}
    
 end p_generation;
