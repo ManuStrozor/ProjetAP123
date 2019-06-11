@@ -23,6 +23,7 @@ package body P_Classification is
    end Score;
    
    function Max_Score(VS : in TV_Score) return T_Categorie is
+   -- {} => {resultat = Catégorie ayant le score maximal dans VS}
       Max : Integer := VS(VS'first);
       Cat : T_Categorie := VS'first;
    begin
@@ -36,6 +37,7 @@ package body P_Classification is
    end;
    
    procedure Run (VD : in TV_Depeche; Lp, Ls, Lc, Le, Lt : TV_Lexique; Nomfic : String) is
+   -- {} => {Génère le fichier texte réponse Nomfic étant donné les dépêches et les lexiques passés en argument}
       F : Text_Io.File_Type;
       Sc : TV_Score;
       MSc : T_Categorie;
@@ -46,18 +48,15 @@ package body P_Classification is
       Create(F, Out_File, Nomfic);
       for I in VD'Range loop
 	 Put_Line(F, VD(i).Id & ':' & Image(VD(I).Cat));
-	 
 	 Sc(Politique) := Score(VD(i), Lp);
 	 Sc(Sports) := Score(VD(i), Ls);
 	 Sc(Culture) := Score(VD(i), Lc);
 	 Sc(Economie) := Score(VD(i), Le);
 	 Sc(Science) := Score(VD(i), Lt);
 	 MSc := Max_Score(Sc);
-	 
 	 if VD(I).Cat = MSc then
 	    Counter(VD(I).Cat) := Counter(VD(I).Cat) + 1;
 	 end if;
-	 
       end loop;
       for I in T_Categorie loop
 	 Put_Line(F, Image(I) & ':' & Integer'Image(Counter(I)));
