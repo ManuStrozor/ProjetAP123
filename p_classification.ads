@@ -1,5 +1,6 @@
-with P_Depeche, P_Lexique;
-use P_Depeche, P_Lexique;
+with P_Depeche; use P_Depeche, P_Depeche.P_CategorieIO;
+with P_Lexique; use P_Lexique;
+with Text_Io; use Text_Io;
 
 package P_classification is
    

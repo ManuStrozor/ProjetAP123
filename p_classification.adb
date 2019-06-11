@@ -37,28 +37,26 @@ package body P_Classification is
    
    procedure Run (VD : in TV_Depeche; Lp, Ls, Lc, Le, Lt : TV_Lexique; Nomfic : String) is
       F : Text_Io.File_Type;
-      Tmp : TV_Lexique;
-      type TV_Cnt is array(T_Categorie) of Positive;
+      type TV_Cnt is array(T_Categorie) of Integer;
       Counter : TV_Cnt := (others => 0);
       Moy : Float := 0.0;
    begin
       Open(F, Out_File, Nomfic);
       for I in VD'Range loop
-	 Put_Line(F, VD(i).Id & ':' & VD(I).Cat);
+	 Put_Line(F, VD(i).Id & ':' & Image(VD(I).Cat));
 	 
 	 if VD(I).Cat = Politique then
-	    Tmp := Lp;
+	    Counter(VD(I).Cat) := Counter(VD(I).Cat) + Score(VD(I), Lp);
 	 elsif VD(I).Cat = Sports then
-	    Tmp := Ls;
+	    Counter(VD(I).Cat) := Counter(VD(I).Cat) + Score(VD(I), Ls);
 	 elsif VD(I).Cat = Culture then
-	    Tmp := Lc;
+	    Counter(VD(I).Cat) := Counter(VD(I).Cat) + Score(VD(I), Lc);
 	 elsif VD(I).Cat = Economie then
-	    Tmp := Le;
+	    Counter(VD(I).Cat) := Counter(VD(I).Cat) + Score(VD(I), Le);
 	 else
-	    Tmp := Lt;
+	    Counter(VD(I).Cat) := Counter(VD(I).Cat) + Score(VD(I), Lt);
 	 end if;
 	 
-	 Counter(VD(I).Cat) := Counter(VD(I).Cat) + Score(VD(I), Tmp);
       end loop;
       for I in T_Categorie loop
 	 Put_Line(Image(I) & ':' & Integer'Image(Counter(I)));
