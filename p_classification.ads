@@ -1,4 +1,5 @@
-with P_Depeche; use P_Depeche;
+with P_Depeche, P_Lexique;
+use P_Depeche, P_Lexique;
 
 package P_classification is
    
