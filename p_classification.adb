@@ -40,7 +40,6 @@ package body P_Classification is
       -- {} => {Génère le fichier texte réponse Nomfic étant donné les dépêches et les lexiques passés en argument}
       F : Text_Io.File_Type;
       Sc : TV_Score;
-      MSc : T_Categorie;
       type TV_Cnt is array(T_Categorie) of Integer;
       Counter : TV_Cnt := (others => 0);
       Moy : Float := 0.0;
@@ -53,8 +52,7 @@ package body P_Classification is
 	 Sc(Culture) := Score(VD(i), Lc);
 	 Sc(Economie) := Score(VD(i), Le);
 	 Sc(Science) := Score(VD(i), Lt);
-	 MSc := Max_Score(Sc);
-	 if VD(I).Cat = MSc then
+	 if VD(I).Cat = Max_Score(Sc) then
 	    Counter(VD(I).Cat) := Counter(VD(I).Cat) + 1;
 	 end if;
       end loop;
