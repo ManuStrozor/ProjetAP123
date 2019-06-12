@@ -21,7 +21,7 @@ package body p_generation is
       N := 0;
       for I in VD'Range loop
 	 if VD(I).Cat = C then
-	    for J in VD(I).Texte'Range loop
+	    for J in VD(I).Texte'First..VD(I).Nbmots loop
 	       if Recherche(VM, N, VD(I).Texte(J)) = -1 and N < VM'last then
 		  VM(VM'First+N).Mot := VD(I).Texte(J);
 		  N := N + 1;
