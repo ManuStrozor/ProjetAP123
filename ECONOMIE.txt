@@ -1,22 +1,22 @@
-strategie:1
-economi:3
-industri:3
-consommation:2
-prix:1
-retraite:2
-cotisation:2
-budget:2
-financ:3
-comission:2
-dollars:1
-euros:1
-fiscalité:3
-croissance:2
-bancaire:2
-produit:1
-Etat:2
-marche:1
-travail:1
-syndicat:2
-rachat:2
-entreprise:2
+strategie: 1
+economi: 3
+industri: 3
+consommation: 2
+prix: 1
+retraite: 2
+cotisation: 2
+budget: 2
+financ: 3
+comission: 2
+dollars: 1
+euros: 1
+fiscalité: 3
+croissance: 2
+bancaire: 2
+produit: 1
+Etat: 2
+marche: 1
+travail: 1
+syndicat: 2
+rachat: 2
+entreprise: 2

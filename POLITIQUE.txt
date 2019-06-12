@@ -1,20 +1,20 @@
-muncipale:2
-maire:2
-débat:1
-public:1
-enjeux:2
-sondage:2
-porte-parole:3
-ministre:3
-polémique:1
-république:3
-présdentielle:3
-candidats:1
-élécteur:3
-institution:2
-gouvernement:3
-loi:3
-parlement:2
-social:1
-remaniement:1
-politique:3
+muncipale: 2
+maire: 2
+débat: 1
+public: 1
+enjeux: 2
+sondage: 2
+porte-parole: 3
+ministre: 3
+polémique: 1
+république: 3
+présdentielle: 3
+candidats: 1
+élécteur: 3
+institution: 2
+gouvernement: 3
+loi: 3
+parlement: 2
+social: 1
+remaniement: 1
+politique: 3
