@@ -59,9 +59,9 @@ package body p_generation is
    function Poids_Score(S : in Integer) return Integer is
       -- {} => {resultat = valeur du poids à attribuer étant donné un score S}
    begin
-      if S > 12 then
+      if S > 2 then
 	 return 3;
-      elsif S > 6 then
+      elsif S > 1 then
 	 return 2;
       elsif S > 0 then
 	 return 1;
@@ -81,7 +81,7 @@ package body p_generation is
       Calcul_Scores(VD, C, VM, N);
       for I in Vm'First..N loop
          if VM(I).Score > 0 then
-            Put_line(Fl, Vm(I).Mot & ":" & Integer'Image(Poids_Score(Vm(I).Score));
+            Put_line(F, Vm(I).Mot & ":" & Integer'Image(Poids_Score(Vm(I).Score)));
          end if;
       end loop;
    end;

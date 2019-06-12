@@ -1,4 +1,5 @@
 with P_Depeche; use P_Depeche;
+with Text_Io; use Text_Io;
 
 package p_generation is
    
