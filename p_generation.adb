@@ -16,18 +16,21 @@ package body p_generation is
    
    procedure Init_Dico(VD: in Tv_Depeche; C: in T_Categorie; VM: out Tv_Dico; N: out Integer) is
       -- {} => {Charge Dans VM Tous Les Mots Présents Dans Au Moins Une Dépêche De La Catégorie C Du Vecteur De Dépêches VD. Attention, Même Si Le Mot Est Présent Plusieurs Fois, Il Ne Doit Apparaître Qu'Une Fois Dans Le Vecteur VM. La Procédure Initialise Aussi Tous Les Scores À 0 Et range Dans N Le Nombre De Mots Ajoutés Dans VM }
+      I : Integer := VD'First;
    begin
       VM := (others => ((others => ' '), 0));
       N := 0;
-      for I in VD'Range loop
-	 if VD(I).Cat = C then
-	    for J in VD(I).Texte'First..VD(I).Nbmots loop
-	       if Recherche(VM, N, VD(I).Texte(J)) = -1 and N < VM'last then
-		  VM(VM'First+N).Mot := VD(I).Texte(J);
-		  N := N + 1;
-	       end if;
-	    end loop;
-	 end if;
+      while I <= VD'Last and then VD(I).Cat /= C loop
+	 I := I + 1;
+      end loop;
+      while I <= VD'Last and then VD(I).Cat = C loop
+	 for J in VD(I).Texte'First..VD(I).Nbmots loop
+	    if Recherche(VM, N, VD(I).Texte(J)) = -1 and N < VM'last then
+	       VM(VM'First+N).Mot := VD(I).Texte(J);
+	       N := N + 1;
+	    end if;
+	 end loop;
+	 I := I + 1;
       end loop;
    end;
    
@@ -54,6 +57,20 @@ package body p_generation is
 	    end loop;
 	 end if;
       end loop;      
+   end;
+   
+   procedure Infos_score(VM : in out TV_Dico; N : in Integer; Moy : out Float; Max, Min : out Integer) is
+      -- {} => {...}
+   begin
+      Moy := 0.0;
+      Max := VM(VM'First).Score;
+      Min := VM(VM'First).Score;
+      for I in VM'Range loop
+	 if VM(I).score > Max then Max := VM(I).Score; end if;
+	 if VM(I).score < Min then Min := VM(I).Score; end if;
+	 Moy := Moy + Float(VM(I).Score);
+      end Loop;
+      Moy := Moy / Float(N);
    end;
    
    function Poids_Score(S : in Integer) return Integer is
