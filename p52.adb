@@ -19,4 +19,4 @@ begin
       Init_Lexique("ENVIRONNEMENT-SCIENCES-2.txt", Lt);
       Run(TVD, Lp, Ls, Lc, Le, Lt, "FicRep-2.txt");
    end;
-end P5;   
+end;   
