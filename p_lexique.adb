@@ -21,15 +21,17 @@ package body P_Lexique is
    -- {On suppose que la taille du vecteur L correspond exactement au nombre de mots contenus dans le fichier}
    -- => {Range dans le vecteur L, les mots contenus dans le fichier lexique Nomfic et les poids associés}
       F : Text_Io.File_Type;
-      Str : String(1..32);
+      Str : String(1..40);
+      Ind : Integer;
       Ln, I : Integer := L'first;
    begin
       Open(F, In_File, NomFic);
       while not End_Of_File(F) loop
 	 Get_Line(F, Str, ln);
 	 L(I).Chaine := (others => ' ');
-	 L(I).Chaine(1..Ln-2) := Str(1..Ln-2);
-	 L(I).Poids := Integer'Value(Str(Ln..Ln));
+	 Ind := Index(':', Str);
+	 L(I).Chaine(1..Ind-1) := Str(1..Ind-1);
+	 L(I).Poids := Integer'Value(Str(Ind+2..Ind+2));
 	 I := I + 1;
       end loop;
       Close(F);

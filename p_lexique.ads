@@ -1,4 +1,5 @@
 with Text_Io; use Text_Io;
+with P_Chaine; use P_Chaine;
 
 package P_Lexique is
    
