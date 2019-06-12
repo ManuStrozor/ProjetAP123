@@ -11,7 +11,7 @@ begin
       Lt: TV_Lexique(1..Nb_Mots("ENVIRONNEMENT-SCIENCES-2.txt"));
       TVD: TV_Depeche; 
    begin
-      Charge("depeches.txt", TVD);  
+      Charge("badtest.txt", TVD);  
       Init_Lexique("ECONOMIE-2.txt", Le);
       Init_Lexique("SPORTS-2.txt", Ls);
       Init_Lexique("CULTURE-2.txt", Lc);
