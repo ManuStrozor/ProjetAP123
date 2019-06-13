@@ -100,24 +100,6 @@ end Affiche;
    end Decompose;
 
        --------------------------------------------------------------------
-   procedure TriBullesOpt(VM : in out TV_Dico; N: in integer) is
-      -- {} => {V trié par ordre alphabétique}
-      I : Integer;
-      Onapermute : Boolean;
-   begin
-      I := V'First; Onapermute := True;
-      while Onapermute loop
-	 Onapermute := False;
-	 for J in reverse I+1..N loop
-	    if V(J).mot < V(J-1).mot then
-	       Permut(V(J), V(J-1));
-	       Onapermute := True;
-	    end if;
-	 end loop;
-	 I := I+1;
-      end loop;
-   end TriBullesOpt;
-   
 
    
 end p_depeche;
