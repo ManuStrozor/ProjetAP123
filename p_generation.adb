@@ -1,8 +1,22 @@
 package body p_generation is
    
-   
-   
-   
+      procedure TriBullesOpt(V : in out TV_Dico; N: in integer) is
+      -- {} => {V trié par ordre alphabétique}
+      I : Integer;
+      Onapermute : Boolean;
+   begin
+      I := V'First; Onapermute := True;
+      while Onapermute loop
+	 Onapermute := False;
+	 for J in reverse I+1..N loop
+	    if V(J).mot < V(J-1).mot then
+	       Permut(V(J), V(J-1));
+	       Onapermute := True;
+	    end if;
+	 end loop;
+	 I := I+1;
+      end loop;
+   end TriBullesOpt;
    
    --  function Recherche(VM: in Tv_Dico; N: in Integer; M: in String) return Integer is
    --     -- {} => {Resultat= Indice Du Mot M Dans Le Vecteur VM Si Il Est Présent Et -1 Sinon. N Est Le Nombre De Mots Rangés Dans Le vecteur}
@@ -22,6 +36,7 @@ package body p_generation is
       --{VM trié, non vide} => {résultat = indice de la première occurrence de val si val = V'Last + 1 sinon}
       Me, Inf, Sup : Integer;
    begin
+      Tribullesopt(VM
       if VM(N).Mot < M then 
 	 return -1;
       else 
