@@ -1,5 +1,5 @@
-with P_Classification, P_Depeche, P_Lexique;
-use P_Classification, P_Depeche, P_Lexique;  
+with P_Classification, P_Depeche, P_Lexique, Text_io;
+use P_Classification, P_Depeche, P_Lexique, Text_io;  
 
 with Calendar; use Calendar;
 
