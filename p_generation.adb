@@ -1,42 +1,46 @@
 package body p_generation is
    
-   function Recherche(VM: in Tv_Dico; N: in Integer; M: in String) return Integer is
-      -- {} => {Resultat= Indice Du Mot M Dans Le Vecteur VM Si Il Est Présent Et -1 Sinon. N Est Le Nombre De Mots Rangés Dans Le vecteur}
-      I : Integer := VM'first;
-   begin
-      while I < VM'First+N and then VM(I).Mot /= M loop
-	 I := I + 1;
-      end loop;
-      if I >= VM'First+N then
-	 return -1;
-      else
-	 return I;
-      end if;
-   end;
    
-   function RechDicho2(V : in TV_Ent; Val : in Integer) return Integer is
-      --{V trié, non vide} => {résultat = indice de la première occurrence de val si val = V'Last + 1 sinon}
+   
+   
+   
+   --  function Recherche(VM: in Tv_Dico; N: in Integer; M: in String) return Integer is
+   --     -- {} => {Resultat= Indice Du Mot M Dans Le Vecteur VM Si Il Est Présent Et -1 Sinon. N Est Le Nombre De Mots Rangés Dans Le vecteur}
+   --     I : Integer := VM'first;
+   --  begin
+   --     while I < VM'First+N and then VM(I).Mot /= M loop
+   --  	 I := I + 1;
+   --     end loop;
+   --     if I >= VM'First+N then
+   --  	 return -1;
+   --     else
+   --  	 return I;
+   --     end if;
+   --  end;
+   
+   function Recherche(VM : in TV_Dico; N: in Integer; M : in string) return Integer is
+      --{VM trié, non vide} => {résultat = indice de la première occurrence de val si val = V'Last + 1 sinon}
       Me, Inf, Sup : Integer;
    begin
-      if VM(VM'Last).Mot < M then 
+      if VM(N).Mot < M then 
 	 return -1;
-      else -- début de la recherche
-	 Inf := VM'First; Sup := VM'Last;
+      else 
+	 Inf := VM'First; Sup :=N;
 	 while Inf < Sup loop
 	    Me := (Inf + Sup) / 2 ;
 	    if VM(Me).mot >= M then
 	       Sup := Me;
 	    else
-	       Inf := M+1;
+	       Inf := Me+1;
 	    end if;
 	 end loop;
-	 if VM(Sup) = M then 
+	 if VM(Sup).mot = M then 
 	    return Sup;
 	 else 
 	    return -1;
 	 end if;
       end if;
-   end RechDicho2;
+   end Recherche;
    
    
    procedure Init_Dico(VD: in Tv_Depeche; C: in T_Categorie; VM: out Tv_Dico; N: out Integer) is
