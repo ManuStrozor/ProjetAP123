@@ -59,20 +59,6 @@ package body p_generation is
       end loop;      
    end;
    
-   procedure Infos_score(VM : in out TV_Dico; N : in Integer; Moy : out Float; Max, Min : out Integer) is
-      -- {} => {...}
-   begin
-      Moy := 0.0;
-      Max := VM(VM'First).Score;
-      Min := VM(VM'First).Score;
-      for I in VM'Range loop
-	 if VM(I).score > Max then Max := VM(I).Score; end if;
-	 if VM(I).score < Min then Min := VM(I).Score; end if;
-	 Moy := Moy + Float(VM(I).Score);
-      end Loop;
-      Moy := Moy / Float(N);
-   end;
-   
    function Poids_Score(S : in Integer) return Integer is
       -- {} => {resultat = valeur du poids à attribuer étant donné un score S}
    begin
@@ -90,7 +76,7 @@ package body p_generation is
    procedure Generation_Lexique (VD: in Tv_Depeche; C : in T_Categorie; Fl: in String) is
      --   {} => {Cette Procédure Créé Pour La Catégorie C Le Fichier Lexique De Nom Fl À Partir Du Vecteur De Dépêches De Nom VD. Cette Procédure Doit Déclarer Un Vecteur De type TV_Dico Puis Le Remplir En Utilisant Init_Dico, Puis Calcul_Scores Et Enfin Utiliser Le Vecteur Résultant Pour Créer Un Fichier Lexique En Utilisant La Fonction Poids_Score}
      F : File_Type;
-     VM : TV_Dico;
+     VM : TV_Dico(1..2000);
      N : Integer := 0;
    begin
       Create(F, Out_File, Fl);
