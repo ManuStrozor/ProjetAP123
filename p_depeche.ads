@@ -27,5 +27,8 @@ package p_depeche is
       procedure Charge(Nomfic : in String;V : out Tv_Depeche);
       
       procedure Decompose(C : in p_chaine.TR_Chaine_Longue; V : out TV_mot;N : out natural);
-                  
+      
+      procedure TriBullesOpt(V : in out TV_Ent);
+      -- {} => {V trié par ordre alphabétique}
+      
 end p_depeche;
