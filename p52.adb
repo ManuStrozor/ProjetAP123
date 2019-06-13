@@ -1,9 +1,20 @@
 with P_Classification, P_Depeche, P_Lexique;
 use P_Classification, P_Depeche, P_Lexique;  
 
+with Calendar; use Calendar;
+
 procedure P52 is
-   TVD : TV_Depeche; 
+   TVD : TV_Depeche;
+   
+   -- TIME --
+   Time1, Time2 : Time;
+   Annee : year_number;
+   Mois : month_number;
+   Jour : day_number;
+   Sec1, Sec2 : Day_Duration;
 begin
+   Time1 := Clock;
+   
    Charge("test.txt", TVD);
    
    declare
@@ -21,4 +32,10 @@ begin
       
       Run(TVD, Lp, Ls, Lc, Le, Lt, "FicRep-2.txt");
    end;
+   
+   -- TIME --
+   Time2 := Clock;
+   Split (Time1, Annee, Mois, Jour, Sec1);
+   Split (Time2, Annee, Mois, Jour, Sec2);
+   Put_Line("Duree:" & Day_Duration'Image(Sec2 - Sec1));
 end;   

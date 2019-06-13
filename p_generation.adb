@@ -63,25 +63,35 @@ package body p_generation is
       -- {} => {Cette procédure met à jour les scores des différents mots présents dans VM. Lorsqu'un mot présent dans VM apparaît dans une dépêche du vecteur VD,
       -- son score est décrémenté si la dépêche n'est pas dans la catégorie C
       --            et incrémenté si la dépêche       est dans la catégorie C}
-      Indice : Integer;
+      I, Indice : Integer := VD'First;
    begin
-      for I in VD'Range loop
-	 if VD(I).Cat = C then
-	    for J in VD(I).Texte'Range loop
-	       Indice := Recherche(VM, N, VD(I).Texte(J));
-	       if Indice /= -1 then
-		  VM(Indice).Score := VM(Indice).Score + 1;
-	       end if;
-	    end loop;
-	 else
-	    for J in VD(I).Texte'Range loop
-	       Indice := Recherche(VM, N, VD(I).Texte(J));
-	       if Indice /= -1 then
-		  VM(Indice).Score := VM(Indice).Score - 1;
-	       end if;
-	    end loop;
-	 end if;
-      end loop;      
+      while I <= VD'Last and then VD(I).Cat /= C loop
+	 for J in VD(I).Texte'Range loop
+	    Indice := Recherche(VM, N, VD(I).Texte(J));
+	    if Indice /= -1 then
+	       VM(Indice).Score := VM(Indice).Score - 1;
+	    end if;
+	 end loop;
+	 I := I + 1;
+      end loop;
+      while I <= VD'Last and then VD(I).Cat = C loop
+	 for J in VD(I).Texte'Range loop
+	    Indice := Recherche(VM, N, VD(I).Texte(J));
+	    if Indice /= -1 then
+	       VM(Indice).Score := VM(Indice).Score + 1;
+	    end if;
+	 end loop;
+	 I := I + 1;
+      end loop;
+      while I <= VD'Last and then VD(I).Cat /= C loop
+	 for J in VD(I).Texte'Range loop
+	    Indice := Recherche(VM, N, VD(I).Texte(J));
+	    if Indice /= -1 then
+	       VM(Indice).Score := VM(Indice).Score - 1;
+	    end if;
+	 end loop;
+	 I := I + 1;
+      end loop;
    end;
    
    function Poids_Score(S : in Integer) return Integer is
