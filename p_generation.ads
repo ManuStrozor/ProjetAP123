@@ -4,11 +4,19 @@ with Text_Io; use Text_Io;
 package p_generation is
    
    type TR_Entree is record
-      Mot: String(1..30);
-      Score: Integer;
+      Mot : String(1..30);
+      Score : Integer;
    end record;
    
-   type TV_Dico is array(1..2000) of TR_Entree;
+   type TV_Dico is array(Integer range <>) of TR_Entree;
+   
+   type TR_Inf is record
+      Moy : Float;
+      Q1, Q2, Q3 : Integer;
+      Max, Nb0Q1, NbQ1Q2, NbQ2Q3, NbQ3Max : Integer;
+   end record;
+   
+   procedure Infos_score(VM : in out TV_Dico; N : in Integer; Inf : out TR_Inf);
    
    function Recherche(VM: in Tv_Dico; N: in Integer; M: in String) return Integer;
    -- {} => {Resultat= Indice Du Mot M Dans Le Vecteur VM Si Il Est Présent Et -1 Sinon. N Est Le Nombre De Mots Rangés Dans Le vecteur}
@@ -19,9 +27,7 @@ package p_generation is
    procedure Calcul_Scores(VD: in Tv_Depeche;C: in T_Categorie; VM: in out Tv_Dico;N: in Integer);
    -- {} => {Cette procédure met à jour les scores des différents mots présents dans VM. Lorsqu'un mot présent dans VM apparaît dans une dépêche du vecteur VD, son score est décrémenté si la dépêche n'est pas dans la catégorie C et incrémenté si la dépêche est dans la catégorie C}
    
-   procedure Infos_score(VM : in out TV_Dico; N : in Integer; Moy : out Float; Max, Min : out Integer);
-   
-   function Poids_Score(S : in Integer) return Integer;
+   function Poids_Score(VM : in out TV_Dico; N : in Integer; Inf : out TR_Inf; S : in Integer) return Integer;
    -- {} => {resultat = valeur du poids à attribuer étant donné un score S}
    
    procedure Generation_Lexique(VD: in Tv_Depeche; C : in T_Categorie; Fl: in String);
