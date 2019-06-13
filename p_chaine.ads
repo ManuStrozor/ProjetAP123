@@ -1,10 +1,10 @@
 package P_Chaine is
    
-      subtype String500 is String(1..500);
+      subtype String600 is String(1..600);
    
-        type TR_Chaine_Longue is record
-         Ch:String500;
-         Long:integer;
+      type TR_Chaine_Longue is record
+         Ch : String600;
+         Long : integer;
       end record;
       
       
