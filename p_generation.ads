@@ -13,7 +13,7 @@ package p_generation is
    procedure TriBullesOpt(V : in out TV_Dico; N: in integer); 
       -- {} => {V trié par ordre alphabétique}   
    
-   function Recherche(VM: in Tv_Dico; N: in Integer; M: in String) return Integer;
+   function Recherche(VM: in out Tv_Dico; N: in Integer; M: in String) return Integer;
    -- {} => {Resultat= Indice Du Mot M Dans Le Vecteur VM Si Il Est Présent Et -1 Sinon. N Est Le Nombre De Mots Rangés Dans Le vecteur}
      
    procedure Init_Dico(VD: in Tv_Depeche; C: in T_Categorie; VM: out Tv_Dico; N: out Integer);

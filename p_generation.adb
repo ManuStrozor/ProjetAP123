@@ -1,7 +1,14 @@
 package body p_generation is
    
-      procedure TriBullesOpt(V : in out TV_Dico; N: in integer) is
+   procedure TriBullesOpt(V : in out TV_Dico; N: in integer) is
       -- {} => {V trié par ordre alphabétique}
+      procedure Permut(A,B: in out TR_Entree) is 
+	S: TR_Entree; 
+      begin
+	 S:=A;
+	 A:=B;
+	 B:=S;
+      end Permut;
       I : Integer;
       Onapermute : Boolean;
    begin
@@ -17,7 +24,7 @@ package body p_generation is
 	 I := I+1;
       end loop;
    end TriBullesOpt;
-   
+      
    --  function Recherche(VM: in Tv_Dico; N: in Integer; M: in String) return Integer is
    --     -- {} => {Resultat= Indice Du Mot M Dans Le Vecteur VM Si Il Est Présent Et -1 Sinon. N Est Le Nombre De Mots Rangés Dans Le vecteur}
    --     I : Integer := VM'first;
@@ -32,15 +39,16 @@ package body p_generation is
    --     end if;
    --  end;
    
-   function Recherche(VM : in TV_Dico; N: in Integer; M : in string) return Integer is
+   function Recherche(VM : in out TV_Dico; N: in Integer; M : in string) return Integer is
       --{VM trié, non vide} => {résultat = indice de la première occurrence de val si val = V'Last + 1 sinon}
       Me, Inf, Sup : Integer;
    begin
-      Tribullesopt(VM
-      if VM(N).Mot < M then 
+      Tribullesopt(VM, N);
+     -- Put_line(Integer'Image(N));
+      if N<2000 and VM(N+1).Mot < M  then 
 	 return -1;
       else 
-	 Inf := VM'First; Sup :=N;
+	 Inf := VM'First; Sup :=VM'First+N;
 	 while Inf < Sup loop
 	    Me := (Inf + Sup) / 2 ;
 	    if VM(Me).mot >= M then
@@ -69,13 +77,15 @@ package body p_generation is
       end loop;
       while I <= VD'Last and then VD(I).Cat = C loop
 	 for J in VD(I).Texte'First..VD(I).Nbmots loop
-	    if Recherche(VM, N, VD(I).Texte(J)) = -1 and N < VM'last then
+	    if N<VM'Last-1 and then Recherche(VM, N, VD(I).Texte(J)) = -1 then
 	       VM(VM'First+N).Mot := VD(I).Texte(J);
 	       N := N + 1;
 	    end if;
+	    Put_Line(Integer'Image(N));
 	 end loop;
 	 I := I + 1;
       end loop;
+     -- Put_line(Integer'Image(N)&"salut");
    end;
    
    procedure Calcul_Scores(VD : in Tv_Depeche; C : in T_Categorie; VM : in out Tv_Dico; N : in Integer) is
