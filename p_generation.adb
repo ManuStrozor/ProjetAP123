@@ -14,6 +14,31 @@ package body p_generation is
       end if;
    end;
    
+   function RechDicho2(V : in TV_Ent; Val : in Integer) return Integer is
+      --{V trié, non vide} => {résultat = indice de la première occurrence de val si val = V'Last + 1 sinon}
+      Me, Inf, Sup : Integer;
+   begin
+      if VM(VM'Last).Mot < M then 
+	 return -1;
+      else -- début de la recherche
+	 Inf := VM'First; Sup := VM'Last;
+	 while Inf < Sup loop
+	    Me := (Inf + Sup) / 2 ;
+	    if VM(Me).mot >= M then
+	       Sup := Me;
+	    else
+	       Inf := M+1;
+	    end if;
+	 end loop;
+	 if VM(Sup) = M then 
+	    return Sup;
+	 else 
+	    return -1;
+	 end if;
+      end if;
+   end RechDicho2;
+   
+   
    procedure Init_Dico(VD: in Tv_Depeche; C: in T_Categorie; VM: out Tv_Dico; N: out Integer) is
       -- {} => {Charge Dans VM Tous Les Mots Présents Dans Au Moins Une Dépêche De La Catégorie C Du Vecteur De Dépêches VD. Attention, Même Si Le Mot Est Présent Plusieurs Fois, Il Ne Doit Apparaître Qu'Une Fois Dans Le Vecteur VM. La Procédure Initialise Aussi Tous Les Scores À 0 Et range Dans N Le Nombre De Mots Ajoutés Dans VM }
       I : Integer := VD'First;
