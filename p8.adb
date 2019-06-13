@@ -9,20 +9,19 @@ procedure P8 is
    
    type TV_Files is array(T_Categorie) of String(1..30);
    
-   Files : TV_Files := (uTrim("POLITIQUE-2.txt", 30),
+   F : TV_Files := (uTrim("POLITIQUE-2.txt", 30),
 			uTrim("SPORTS-2.txt", 30),
 			uTrim("CULTURE-2.txt", 30),
 			uTrim("ECONOMIE-2.txt", 30),
-			uTrim("ENVIRONNEMENT-SCIENCES-2.txt", 30));
+			uTrim("SCIENCES-2.txt", 30));
    
    TVD : TV_Depeche;
    Dico : TV_Dico;
    Nb : Integer := 0;
 begin
    Charge("depeches.txt", TVD);
-   for I in Files'range loop
-      Init_Dico(TVD, I, Dico, Nb);
-      Calcul_Scores(TVD, I, Dico, Nb);
-      Generation_Lexique(TVD, I, Trim(Files(I)));
+   
+   for I in F'range loop
+      Generation_Lexique(TVD, I, Trim(F(I)));
    end loop;
 end;

@@ -10,6 +10,7 @@ procedure P6 is
    Nb : Integer := 0;
 begin
    Charge("depeches.txt", TVD);
+   
    Init_Dico(TVD, Sports, Dico, Nb);
    for I in Dico'First..Nb loop
       Put_Line(Integer'Image(I) & ' ' & Dico(I).Mot &':'& Integer'Image(Dico(I).Score));
