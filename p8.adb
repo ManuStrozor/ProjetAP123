@@ -10,13 +10,13 @@ procedure P8 is
    type TV_Files is array(T_Categorie) of String(1..30);
    
    F : TV_Files := (uTrim("POLITIQUE-2.txt", 30),
-			uTrim("SPORTS-2.txt", 30),
-			uTrim("CULTURE-2.txt", 30),
-			uTrim("ECONOMIE-2.txt", 30),
-			uTrim("SCIENCES-2.txt", 30));
+		    uTrim("SPORTS-2.txt", 30),
+		    uTrim("CULTURE-2.txt", 30),
+		    uTrim("ECONOMIE-2.txt", 30),
+		    uTrim("SCIENCES-2.txt", 30));
    
    TVD : TV_Depeche;
-   Dico : TV_Dico;
+   Dico : TV_Dico(1..2000);
    Nb : Integer := 0;
 begin
    Charge("depeches.txt", TVD);
