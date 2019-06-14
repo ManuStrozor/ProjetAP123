@@ -22,6 +22,9 @@ package p_generation is
    procedure Calcul_Scores(VD: in Tv_Depeche;C: in T_Categorie; VM: in out Tv_Dico;N: in Integer);
    -- {} => {Cette procédure met à jour les scores des différents mots présents dans VM. Lorsqu'un mot présent dans VM apparaît dans une dépêche du vecteur VD, son score est décrémenté si la dépêche n'est pas dans la catégorie C et incrémenté si la dépêche est dans la catégorie C}
    
+   procedure Infos_Scores(VM: in TV_Dico; N: in Integer; Min,Q1,M,Q3,MAX: out integer);
+   --{} => {Calcul min, Q1, me, Q3, max, et nb entre les quartiles) 
+   
    function Poids_Score(S : in Integer) return Integer;
    -- {} => {resultat = valeur du poids à attribuer étant donné un score S}
    
