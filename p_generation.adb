@@ -1,51 +1,9 @@
 package body p_generation is
    
-   --  procedure TriBullesOpt(V : in out TV_Dico; N: in integer) is
-   --     -- {} => {V trié par ordre alphabétique}
-      
-   --     procedure Permut(A, B : in out TR_Entree) is
-   --  	S : TR_Entree; 
-   --     begin
-   --  	 S := A;
-   --  	 A := B;
-   --  	 B := S;
-   --     end;
-      
-   --     I : Integer;
-   --     Onapermute : Boolean;
-   --  begin
-   --     I := V'First; Onapermute := True;
-   --     while Onapermute loop
-   --  	 Onapermute := False;
-   --  	 for J in reverse I+1..N loop
-   --  	    if V(J).mot < V(J-1).mot then
-   --  	       Permut(V(J), V(J-1));
-   --  	       Onapermute := True;
-   --  	    end if;
-   --  	 end loop;
-   --  	 I := I + 1;
-   --     end loop;
-   --  end;
-      
-   --  function Recherche(VM: in Tv_Dico; N: in Integer; M: in String) return Integer is
-   --     -- {} => {Resultat= Indice Du Mot M Dans Le Vecteur VM Si Il Est Présent Et -1 Sinon. N Est Le Nombre De Mots Rangés Dans Le vecteur}
-   --     I : Integer := VM'first;
-   --  begin
-   --     while I < VM'First+N and then VM(I).Mot /= M loop
-   --  	 I := I + 1;
-   --     end loop;
-   --     if I >= VM'First+N then
-   --  	 return -1;
-   --     else
-   --  	 return I;
-   --     end if;
-   --  end;
-   
    function Recherche(VM : in out TV_Dico; N: in Integer; M : in string) return Integer is
       --{VM trié, non vide} => {résultat = indice de la première occurrence de val si val = V'Last + 1 sinon}
       Me, Inf, Sup : Integer;
    begin
-      --Put_Line(Integer'Image(N));
       if N > 0 and then VM(N).Mot < M then
    	 return -1;
       else
@@ -73,7 +31,7 @@ package body p_generation is
       while I <= N and then Mot > VM(I).Mot loop
 	 I := I + 1;
       end loop;
-      if Mot > VM(i).Mot then
+      if Mot > VM(I).Mot then
 	 VM(I).Mot := Mot;
 	 N := N + 1;
       elsif Mot < VM(I).Mot and N < VM'Last then
@@ -105,16 +63,16 @@ package body p_generation is
       --            et incrémenté si la dépêche       est dans la catégorie C}
       I, Indice : Integer := VD'First;
    begin
-      for I in VD'Range loop 
+      for I in VD'Range loop
 	 if Vd(I).Cat = C then 
-	    for J in VD(I).Texte'Range loop
+	    for J in VD(I).Texte'First..VD(I).Nbmots loop
 	       Indice := Recherche(VM, N, VD(I).Texte(J));
 	       if Indice /= -1 then
 		  VM(Indice).Score := VM(Indice).Score + 1;
 	       end if;
 	    end loop;
 	 else
-	    for J in VD(I).Texte'Range loop
+	    for J in VD(I).Texte'First..VD(I).Nbmots loop
 	       Indice := Recherche(VM, N, VD(I).Texte(J));
 	       if Indice /= -1 then
 		  VM(Indice).Score := VM(Indice).Score - 1;
@@ -149,7 +107,7 @@ package body p_generation is
       Calcul_Scores(VD, C, VM, N);
       for I in Vm'First..N loop
          if VM(I).Score > 0 then
-            Put_line(F, Vm(I).Mot & ":" & Integer'Image(Poids_Score(Vm(I).Score)));
+            Put_line(F, Vm(I).Mot & ':' & Integer'Image(Poids_Score(Vm(I).Score)));
          end if;
       end loop;
    end;

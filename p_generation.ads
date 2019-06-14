@@ -10,9 +10,6 @@ package p_generation is
    
    type TV_Dico is array(Integer range <>) of TR_Entree;
    
-   --procedure TriBullesOpt(V : in out TV_Dico; N: in integer); 
-   -- {} => {V trié par ordre alphabétique}   
-   
    function Recherche(VM: in out Tv_Dico; N: in Integer; M: in String) return Integer;
    -- {} => {Resultat= Indice Du Mot M Dans Le Vecteur VM Si Il Est Présent Et -1 Sinon. N Est Le Nombre De Mots Rangés Dans Le vecteur}
    
