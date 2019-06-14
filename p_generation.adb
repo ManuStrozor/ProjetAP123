@@ -153,6 +153,7 @@ package body p_generation is
             Put_line(F, Vm(I).Mot & ':' & Integer'Image(Poids_Score(Vm(I).Score)));
          end if;
       end loop;
+      Close(F);
    end;
    
 end p_generation;
