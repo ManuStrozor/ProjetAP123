@@ -1,29 +1,31 @@
 package body p_generation is
    
-   procedure TriBullesOpt(V : in out TV_Dico; N: in integer) is
-      -- {} => {V trié par ordre alphabétique}
-      procedure Permut(A,B: in out TR_Entree) is 
-	S: TR_Entree; 
-      begin
-	 S:=A;
-	 A:=B;
-	 B:=S;
-      end Permut;
-      I : Integer;
-      Onapermute : Boolean;
-   begin
-      I := V'First; Onapermute := True;
-      while Onapermute loop
-	 Onapermute := False;
-	 for J in reverse I+1..N loop
-	    if V(J).mot < V(J-1).mot then
-	       Permut(V(J), V(J-1));
-	       Onapermute := True;
-	    end if;
-	 end loop;
-	 I := I+1;
-      end loop;
-   end TriBullesOpt;
+   --  procedure TriBullesOpt(V : in out TV_Dico; N: in integer) is
+   --     -- {} => {V trié par ordre alphabétique}
+      
+   --     procedure Permut(A, B : in out TR_Entree) is
+   --  	S : TR_Entree; 
+   --     begin
+   --  	 S := A;
+   --  	 A := B;
+   --  	 B := S;
+   --     end;
+      
+   --     I : Integer;
+   --     Onapermute : Boolean;
+   --  begin
+   --     I := V'First; Onapermute := True;
+   --     while Onapermute loop
+   --  	 Onapermute := False;
+   --  	 for J in reverse I+1..N loop
+   --  	    if V(J).mot < V(J-1).mot then
+   --  	       Permut(V(J), V(J-1));
+   --  	       Onapermute := True;
+   --  	    end if;
+   --  	 end loop;
+   --  	 I := I + 1;
+   --     end loop;
+   --  end;
       
    --  function Recherche(VM: in Tv_Dico; N: in Integer; M: in String) return Integer is
    --     -- {} => {Resultat= Indice Du Mot M Dans Le Vecteur VM Si Il Est Présent Et -1 Sinon. N Est Le Nombre De Mots Rangés Dans Le vecteur}
@@ -43,49 +45,66 @@ package body p_generation is
       --{VM trié, non vide} => {résultat = indice de la première occurrence de val si val = V'Last + 1 sinon}
       Me, Inf, Sup : Integer;
    begin
-      Tribullesopt(VM, N);
-     -- Put_line(Integer'Image(N));
-      if N<2000 and VM(N+1).Mot < M  then 
-	 return -1;
-      else 
-	 Inf := VM'First; Sup :=VM'First+N;
-	 while Inf < Sup loop
-	    Me := (Inf + Sup) / 2 ;
-	    if VM(Me).mot >= M then
-	       Sup := Me;
-	    else
-	       Inf := Me+1;
-	    end if;
-	 end loop;
-	 if VM(Sup).mot = M then 
-	    return Sup;
-	 else 
-	    return -1;
-	 end if;
+      --Put_Line(Integer'Image(N));
+      if N > 0 and then VM(N).Mot < M then
+   	 return -1;
+      else
+   	 Inf := VM'First; Sup := VM'First+N;
+   	 while Inf < Sup loop
+   	    Me := (Inf + Sup) / 2 ;
+   	    if VM(Me).mot >= M then
+   	       Sup := Me;
+   	    else
+   	       Inf := Me + 1;
+   	    end if;
+   	 end loop;
+   	 if VM(Sup).Mot = M then 
+   	    return Sup;
+   	 else 
+   	    return -1;
+   	 end if;
       end if;
-   end Recherche;
+   end;
    
+   procedure Insert_Dico(VM : out TV_Dico; N : out Integer; Mot : in String) is
+      -- {} => {Insert Mot dans VM de facon à ce que le dico soit toujours trié, si Mot est dejà présent dans VM, il n'est pas inséré}
+      I : Integer := VM'First;
+   begin
+      while I <= N and then Mot > VM(I).Mot loop
+	 Put_Line("--> loop");
+	 I := I + 1;
+      end loop;
+      if Mot > VM(i).Mot then
+	 Put_Line("--> if");
+	 VM(I).Mot := Mot;
+	 N := N + 1;
+      elsif Mot < VM(I).Mot and N < VM'Last then
+	 Put_Line("--> elsif");
+	 VM(I+1..N+1) := VM(I..N);
+	 VM(I).Mot := Mot;
+	 N := N + 1;
+      end if;
+      Put_Line("Insert N : " & Integer'Image(N));
+   end;
    
-   procedure Init_Dico(VD: in Tv_Depeche; C: in T_Categorie; VM: out Tv_Dico; N: out Integer) is
+   procedure Init_Dico(VD: in Tv_Depeche; C: in T_Categorie; VM: out Tv_Dico; N : out Integer) is
       -- {} => {Charge Dans VM Tous Les Mots Présents Dans Au Moins Une Dépêche De La Catégorie C Du Vecteur De Dépêches VD. Attention, Même Si Le Mot Est Présent Plusieurs Fois, Il Ne Doit Apparaître Qu'Une Fois Dans Le Vecteur VM. La Procédure Initialise Aussi Tous Les Scores À 0 Et range Dans N Le Nombre De Mots Ajoutés Dans VM }
       I : Integer := VD'First;
    begin
       VM := (others => ((others => ' '), 0));
-      N := 0;
       while I <= VD'Last and then VD(I).Cat /= C loop
 	 I := I + 1;
       end loop;
+      Put_Line("Avant boucle : " & Integer'Image(N));
       while I <= VD'Last and then VD(I).Cat = C loop
 	 for J in VD(I).Texte'First..VD(I).Nbmots loop
-	    if N<VM'Last-1 and then Recherche(VM, N, VD(I).Texte(J)) = -1 then
-	       VM(VM'First+N).Mot := VD(I).Texte(J);
-	       N := N + 1;
-	    end if;
-	    Put_Line(Integer'Image(N));
+	    Put_Line("Avant Insert : " & Integer'Image(N));
+	    Insert_Dico(VM, N, VD(I).Texte(J));
+	    Put_Line("Apres Insert : " & Integer'Image(N));
+	    Put_Line(VD(I).Texte(J) & " -> " & VM(N).Mot);
 	 end loop;
 	 I := I + 1;
       end loop;
-     -- Put_line(Integer'Image(N)&"salut");
    end;
    
    procedure Calcul_Scores(VD : in Tv_Depeche; C : in T_Categorie; VM : in out Tv_Dico; N : in Integer) is
