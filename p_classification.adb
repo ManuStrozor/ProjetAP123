@@ -1,22 +1,38 @@
 package body P_Classification is
    
    function Score(D: in TR_Depeche; L : in TV_Lexique) return Integer is
-      function RechmotdansL(mot: in string; L : in TV_Lexique) return natural is
+      
+      function Rech(Mot : in String; L : in TV_Lexique) return Integer is
 	 -- {L non trié},=> {résultat = indice si L contient le mot}
-	 I : Integer:= L'first;
+	 Me, Inf, Sup : Integer;
       begin
-	 while I < L'Last+1 and then L(I).Chaine /= mot loop
-	    I := I + 1;
-	 end loop;
-	 return I;
+	 if L(L'last).Chaine < Mot then
+	    return L'Last+1;
+	 else
+	    Inf := L'First; Sup := L'Last;
+	    while Inf < Sup loop
+	       Me := (Inf + Sup) / 2 ;
+	       if L(Me).Chaine >= Mot then
+		  Sup := Me;
+	       else
+		  Inf := Me + 1;
+	       end if;
+	    end loop;
+	    if L(Sup).Chaine = Mot then 
+	       return Sup;
+	    else 
+	       return L'Last+1;
+	    end if;
+	 end if;
       end;
+            
       Total : Integer := 0;
-      Indice : Natural;
+      Ind : Natural;
    begin
-      for I in D.Texte'Range loop
-	 Indice := RechmotdansL(D.Texte(I), L);
-	 if Indice /= L'Last+1 then
-	    Total := Total + L(Indice).Poids;
+      for I in D.Texte'First..D.Nbmots loop
+	 Ind := Rech(D.Texte(I), L);
+	 if Ind /= L'Last+1 then
+	    Total := Total + L(Ind).Poids;
 	 end if;
       end loop;
       return Total;
@@ -46,7 +62,7 @@ package body P_Classification is
    begin
       Create(F, Out_File, Nomfic);
       for I in VD'Range loop
-	 Put_Line(F, VD(i).Id & ':' & Image(VD(I).Cat));
+	 Put_Line(F, VD(i).Id &':'& Image(VD(I).Cat));
 	 Sc(Politique) := Score(VD(i), Lp);
 	 Sc(Sports) := Score(VD(i), Ls);
 	 Sc(Culture) := Score(VD(i), Lc);
