@@ -113,34 +113,24 @@ package body p_generation is
       --            et incrémenté si la dépêche       est dans la catégorie C}
       I, Indice : Integer := VD'First;
    begin
-      while I <= VD'Last and then VD(I).Cat /= C loop
-	 for J in VD(I).Texte'Range loop
-	    Indice := Recherche(VM, N, VD(I).Texte(J));
-	    if Indice /= -1 then
-	       VM(Indice).Score := VM(Indice).Score - 1;
-	    end if;
-	 end loop;
-	 I := I + 1;
+      for I in VD'Range loop 
+	 if Vd(I).Cat = C then 
+	    for J in VD(I).Texte'Range loop
+	       Indice := Recherche(VM, N, VD(I).Texte(J));
+	       if Indice /= -1 then
+		  VM(Indice).Score := VM(Indice).Score + 1;
+	       end if;
+	    end loop;
+	 else
+	    for J in VD(I).Texte'Range loop
+	       Indice := Recherche(VM, N, VD(I).Texte(J));
+	       if Indice /= -1 then
+		  VM(Indice).Score := VM(Indice).Score - 1;
+	       end if;
+	    end loop;
+	 end if;
       end loop;
-      while I <= VD'Last and then VD(I).Cat = C loop
-	 for J in VD(I).Texte'Range loop
-	    Indice := Recherche(VM, N, VD(I).Texte(J));
-	    if Indice /= -1 then
-	       VM(Indice).Score := VM(Indice).Score + 1;
-	    end if;
-	 end loop;
-	 I := I + 1;
-      end loop;
-      while I <= VD'Last and then VD(I).Cat /= C loop
-	 for J in VD(I).Texte'Range loop
-	    Indice := Recherche(VM, N, VD(I).Texte(J));
-	    if Indice /= -1 then
-	       VM(Indice).Score := VM(Indice).Score - 1;
-	    end if;
-	 end loop;
-	 I := I + 1;
-      end loop;
-   end;
+   end Calcul_scores;
    
    function Poids_Score(S : in Integer) return Integer is
       -- {} => {resultat = valeur du poids à attribuer étant donné un score S}
