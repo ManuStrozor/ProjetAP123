@@ -82,20 +82,23 @@ package body p_generation is
       end loop;
    end Calcul_scores;
    
-   procedure Infos_Scores(VM: in TV_Dico; N: in Integer; Min,Q1,M,Q3,MAX: out integer)is
+   procedure Infos_Scores(VM : in TV_Dico; N : in Integer; Min,Q1,M,Q3,Max : in out integer)is
       --{} => {Calcul min, Q1, me, Q3, max, et nb entre les quartiles) 
       VMtemp : TV_Dico(1..N) := VM(1..N);
-      procedure TriBullesOpt(V : in out TV_Dico, N: in integer) is
+      procedure TriBullesOpt(V : in out TV_Dico; N : in integer) is
 	 -- {} => {V trié par ordre croissant}
 	 I : Integer;
 	 Onapermute : Boolean;
+	 Tmp : TR_Entree;
       begin
 	 I := V'First; Onapermute := True;
 	 while Onapermute loop
 	    Onapermute := False;
 	    for J in reverse I+1..N loop
 	       if V(J).score < V(J-1).score then
-		  Permut(V(J), V(J-1));
+		  Tmp := V(J);
+		  V(J) := V(J-1);
+		  V(J-1) := tmp;
 		  Onapermute := True;
 	       end if;
 	    end loop;
@@ -106,12 +109,12 @@ package body p_generation is
    begin
       Tribullesopt(VMtemp, N);
       
-      Min:= VMtemp(Vmtemp'First).score;
-      Max:= Vmtemp(N).score;
-      Sco : Max / 4;
-      Q1:= Vmtemp(sco).score;
-      M:= Vmtemp(Sco*2)).Score;
-      Q3:= Vmtemp(sco*3).Score;
+      Min := VMtemp(Vmtemp'First).score;
+      Max := Vmtemp(N).score;
+      Sco := Max / 4;
+      Q1 := Vmtemp(sco).score;
+      M := Vmtemp(Sco*2).Score;
+      Q3 := Vmtemp(sco*3).Score;
    end;
    
    function Poids_Score(Q1, Med, Q3 : in Integer; S : in Integer) return Integer is
@@ -133,13 +136,15 @@ package body p_generation is
      F : File_Type;
      VM : TV_Dico(1..2000);
      N : Integer := 0;
+     Min, Q1, Med, Q3, Max : Integer := 0;
    begin
       Create(F, Out_File, Fl);
       Init_Dico(Vd, C, VM, N);
       Calcul_Scores(VD, C, VM, N);
+      Infos_Scores(VM, N, Min, Q1, Med, Q3, Max);
       for I in Vm'First..N loop
-         if VM(I).Score > 0 then
-            Put_line(F, Vm(I).Mot & ':' & Integer'Image(Poids_Score(Vm(I).Score)));
+         if VM(I).Score > Min then
+            Put_line(F, Vm(I).Mot & ':' & Integer'Image(Poids_Score(Q1, Med, Q3, Vm(I).Score)));
          end if;
       end loop;
       Close(F);
