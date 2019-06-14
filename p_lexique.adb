@@ -26,9 +26,9 @@ package body P_Lexique is
       Ln, I : Integer := L'first;
    begin
       Open(F, In_File, NomFic);
+      L := (others => ((others => ' '), 1));
       while not End_Of_File(F) loop
 	 Get_Line(F, Str, ln);
-	 L(I).Chaine := (others => ' ');
 	 Ind := Index(':', Str);
 	 L(I).Chaine(1..Ind-1) := Str(1..Ind-1);
 	 L(I).Poids := Integer'Value(Str(Ind+2..Ind+2));
