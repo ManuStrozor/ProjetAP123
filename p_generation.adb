@@ -85,7 +85,7 @@ package body p_generation is
    procedure Infos_Scores(VM: in TV_Dico; N: in Integer; Min,Q1,M,Q3,MAX: out integer)is
       --{} => {Calcul min, Q1, me, Q3, max, et nb entre les quartiles) 
       VMtemp : TV_Dico(1..N) := VM(1..N);
-      procedure TriBullesOpt(V : in out TV_Dico, N: in integer) is
+      procedure TriBullesOpt(V : in out TV_Dico; N: in integer) is
 	 -- {} => {V trié par ordre croissant}
 	 I : Integer;
 	 Onapermute : Boolean;
@@ -108,9 +108,9 @@ package body p_generation is
       
       Min:= VMtemp(Vmtemp'First).score;
       Max:= Vmtemp(N).score;
-      Sco : Max / 4;
+      Sco := Max / 4;
       Q1:= Vmtemp(sco).score;
-      M:= Vmtemp(Sco*2)).Score;
+      M:= Vmtemp(Sco*2).Score;
       Q3:= Vmtemp(sco*3).Score;
    end;
    
