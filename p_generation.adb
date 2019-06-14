@@ -84,8 +84,7 @@ package body p_generation is
    
    procedure Infos_Scores(VM: in TV_Dico; N: in Integer; Min,Q1,M,Q3,MAX: out integer)is
       --{} => {Calcul min, Q1, me, Q3, max, et nb entre les quartiles) 
-      VMtemp: TV_Dico;
-      NbminQ1,NbQ1M,NbMQ3,NbQ3max: Natural:=0;
+      VMtemp : TV_Dico(1..N) := VM(1..N);
       procedure TriBullesOpt(V : in out TV_Dico, N: in integer) is
 	 -- {} => {V trié par ordre croissant}
 	 I : Integer;
@@ -102,40 +101,30 @@ package body p_generation is
 	    end loop;
 	    I := I+1;
 	 end loop;
-      end TriBullesOpt;
-      
+      end;
+      I, Sco : Integer;
    begin
-      Tribullopt(VMtemp);
-      Min:= 0;
-      Q1:= Vmtemp.Score(Integer(N/4));
-      M:= Vmtemp.Score(Integer(N/2));
-      Q3:= Vmtemp.Score(Integer(N*3/4));
-      Max:= Vmtemp.Score(N);
-      while I<N and then Vmtemp(I)<Min loop
-	 NbminQ1:=NbminQ1+1;
-      end loop;
-      while I<N and then Vmtemp(I)<M loop
-	 NbQ1Q2:=NbQ1M+1;
-      end loop;
-      while I<N and then Vmtemp(I)<Q3 loop
-	 NbQ2Q3:=NbMQ3+1;
-      end loop;
-      while I<N and then Vmtemp(I)<Max loop
-	 NbQ3max:=NbQ3max+1;
-      end loop;
-   end Infos_Scores;
+      Tribullesopt(VMtemp, N);
+      
+      Min:= VMtemp(Vmtemp'First).score;
+      Max:= Vmtemp(N).score;
+      Sco : Max / 4;
+      Q1:= Vmtemp(sco).score;
+      M:= Vmtemp(Sco*2)).Score;
+      Q3:= Vmtemp(sco*3).Score;
+   end;
    
-   function Poids_Score(S : in Integer) return Integer is
+   function Poids_Score(Q1, Med, Q3 : in Integer; S : in Integer) return Integer is
       -- {} => {resultat = valeur du poids à attribuer étant donné un score S}
    begin
-      if S > 2 then
+      if S > Q3 then
 	 return 3;
-      elsif S > 1 then
+      elsif S > Med then
 	 return 2;
-      elsif S > 0 then
+      elsif S > Q1 then
 	 return 1;
       else
-	 return 0;
+	 return 1;
       end if;
    end;
    
