@@ -12,7 +12,7 @@ procedure P is
    type TV_Files is array(T_Categorie) of String(1..30);
    
    F : TV_Files;
-   TVD, TVD2 : TV_Depeche;
+   TVD, TVT : TV_Depeche;
    
    -- TIME --
    Time1, Time2 : Time;
@@ -24,7 +24,7 @@ begin
    Time1 := Clock;
    
    Charge("depeches.txt", TVD);
-   Charge("test.txt", TVD2);
+   Charge("test.txt", TVT);
    
    F := (uTrim("POLITIQUE-2.txt", 30),
 	 uTrim("SPORTS-2.txt", 30),
@@ -49,7 +49,7 @@ begin
       Init_Lexique(Trim(F(Economie)), Le);
       Init_Lexique(Trim(F(Science)), Lt);
       
-      Run(TVD2, Lp, Ls, Lc, Le, Ls, "FicRep-2.txt");
+      Run(TVT, Lp, Ls, Lc, Le, Lt, "FicRep-2.txt");
    end;
    
    -- TIME --
