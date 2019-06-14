@@ -66,28 +66,24 @@ package body p_generation is
       end if;
    end;
    
-   procedure Insert_Dico(VM : out TV_Dico; N : out Integer; Mot : in String) is
+   procedure Insert_Dico(VM : out TV_Dico; N : in out Integer; Mot : in String) is
       -- {} => {Insert Mot dans VM de facon à ce que le dico soit toujours trié, si Mot est dejà présent dans VM, il n'est pas inséré}
       I : Integer := VM'First;
    begin
       while I <= N and then Mot > VM(I).Mot loop
-	 Put_Line("--> loop");
 	 I := I + 1;
       end loop;
       if Mot > VM(i).Mot then
-	 Put_Line("--> if");
 	 VM(I).Mot := Mot;
 	 N := N + 1;
       elsif Mot < VM(I).Mot and N < VM'Last then
-	 Put_Line("--> elsif");
 	 VM(I+1..N+1) := VM(I..N);
 	 VM(I).Mot := Mot;
 	 N := N + 1;
       end if;
-      Put_Line("Insert N : " & Integer'Image(N));
    end;
    
-   procedure Init_Dico(VD: in Tv_Depeche; C: in T_Categorie; VM: out Tv_Dico; N : out Integer) is
+   procedure Init_Dico(VD: in Tv_Depeche; C: in T_Categorie; VM: out Tv_Dico; N : in out Integer) is
       -- {} => {Charge Dans VM Tous Les Mots Présents Dans Au Moins Une Dépêche De La Catégorie C Du Vecteur De Dépêches VD. Attention, Même Si Le Mot Est Présent Plusieurs Fois, Il Ne Doit Apparaître Qu'Une Fois Dans Le Vecteur VM. La Procédure Initialise Aussi Tous Les Scores À 0 Et range Dans N Le Nombre De Mots Ajoutés Dans VM }
       I : Integer := VD'First;
    begin
@@ -95,13 +91,9 @@ package body p_generation is
       while I <= VD'Last and then VD(I).Cat /= C loop
 	 I := I + 1;
       end loop;
-      Put_Line("Avant boucle : " & Integer'Image(N));
       while I <= VD'Last and then VD(I).Cat = C loop
 	 for J in VD(I).Texte'First..VD(I).Nbmots loop
-	    Put_Line("Avant Insert : " & Integer'Image(N));
 	    Insert_Dico(VM, N, VD(I).Texte(J));
-	    Put_Line("Apres Insert : " & Integer'Image(N));
-	    Put_Line(VD(I).Texte(J) & " -> " & VM(N).Mot);
 	 end loop;
 	 I := I + 1;
       end loop;
