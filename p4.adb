@@ -8,23 +8,23 @@ procedure P4 is
    Sc : TV_Score;
    Ind : Integer;
 begin
-   Charge("txt/depeches.txt", Dep);
+   Charge("txt/test.txt", Dep);
    loop
       Ecrire("Dépèche numéro :"); Lire(Ind);
       exit when Ind >= 1 and Ind <= 500;
    end loop;
    declare
-      Lp : TV_Lexique(1..Nb_Mots("lex/POLITIQUE.txt"));
-      Ls : TV_Lexique(1..Nb_Mots("lex/SPORTS.txt"));
-      Lc : TV_Lexique(1..Nb_Mots("lex/CULTURE.txt"));
-      Le : TV_Lexique(1..Nb_Mots("lex/ECONOMIE.txt"));
-      Lt : TV_Lexique(1..Nb_Mots("lex/SCIENCES.txt"));
+      Lp : TV_Lexique(1..Nb_Mots("lex/POLITIQUE-2.txt"));
+      Ls : TV_Lexique(1..Nb_Mots("lex/SPORTS-2.txt"));
+      Lc : TV_Lexique(1..Nb_Mots("lex/CULTURE-2.txt"));
+      Le : TV_Lexique(1..Nb_Mots("lex/ECONOMIE-2.txt"));
+      Lt : TV_Lexique(1..Nb_Mots("lex/SCIENCES-2.txt"));
    begin
-      Init_Lexique("lex/POLITIQUE.txt", Lp);
-      Init_Lexique("lex/SPORTS.txt", Ls);
-      Init_Lexique("lex/CULTURE.txt", Lc);
-      Init_Lexique("lex/ECONOMIE.txt", Le);
-      Init_Lexique("lex/SCIENCES.txt", Lt);
+      Init_Lexique("lex/POLITIQUE-2.txt", Lp);
+      Init_Lexique("lex/SPORTS-2.txt", Ls);
+      Init_Lexique("lex/CULTURE-2.txt", Lc);
+      Init_Lexique("lex/ECONOMIE-2.txt", Le);
+      Init_Lexique("lex/SCIENCES-2.txt", Lt);
       
       Sc(Politique) := Score(Dep(Ind), Lp);
       Sc(Sports) := Score(Dep(Ind), Ls);
