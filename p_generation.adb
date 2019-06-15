@@ -28,16 +28,22 @@ package body p_generation is
       -- {} => {Insert Mot dans VM de facon à ce que le dico soit toujours trié, si Mot est dejà présent dans VM, il n'est pas inséré}
       I : Integer := VM'First;
    begin
-      while I <= N and then Mot > VM(I).Mot loop
-	 I := I + 1;
-      end loop;
-      if Mot > VM(I).Mot then
+      if N = 0 then
 	 VM(I).Mot := Mot;
-	 N := N + 1;
-      elsif Mot < VM(I).Mot and N < VM'Last then
-	 VM(I+1..N+1) := VM(I..N);
-	 VM(I).Mot := Mot;
-	 N := N + 1;
+	 N := 1;
+      else
+	 while I <= N and then Mot > VM(I).Mot loop
+	    I := I + 1;
+	 end loop;
+	 if I <= VM'last and then Mot /= VM(I).Mot then
+	    if N = VM'Last then
+	       VM(I+1..N) := VM(I..N-1);
+	    else
+	       VM(I+1..N+1) := VM(I..N);
+	    end if;
+	    VM(I).Mot := Mot;
+	    if N < VM'Last then N := N + 1; end if;
+	 end if;
       end if;
    end;
    
@@ -102,27 +108,29 @@ package body p_generation is
 		  Onapermute := True;
 	       end if;
 	    end loop;
-	    I := I+1;
+	    I := I + 1;
 	 end loop;
       end;
-      I, Sco : Integer;
+      I, Sco : Integer := VMtemp'First;
    begin
       Tribullesopt(VMtemp, N);
-      Min := VMtemp(Vmtemp'First).score;
-      Max := Vmtemp(N).score;
-      while I <= Vmtemp'Last and then Vmtemp(i).Score < Min loop
+      while I <= N and then VMtemp(I).Score < 0 loop
 	 I := I + 1;
       end loop;
+      Min := VMtemp(I).score;
+      Max := Vmtemp(N).score;
       Sco := Max / 4;
-      Q1 := Vmtemp(I+Sco).score;
-      M := Vmtemp(I+(Sco*2)).Score;
-      Q3 := Vmtemp(I+(Sco*3)).Score;
+      Q1 := Sco;
+      M := Sco * 2;
+      Q3 := Sco * 3;
    end;
    
    function Poids_Score(Q1, Med, Q3 : in Integer; S : in Integer) return Integer is
       -- {} => {resultat = valeur du poids à attribuer étant donné un score S}
    begin
-      if S > Med then
+      if S > Q3 then
+	 return 4;
+      elsif S > Med then
 	 return 3;
       elsif S > Q1 then
 	 return 2;
