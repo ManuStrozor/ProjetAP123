@@ -119,6 +119,10 @@ package body p_generation is
       while I <= N and then VMtemp(I).Score < 0 loop
 	 I := I + 1;
       end loop;
+      for J in I..N loop
+	 VMtemp(J).Score := Integer(Float(VMtemp(J).Score) + (Float(VMtemp(J).Score)*(Float(VMtemp(J).Score)/Float(VMtemp(J).Freq))));
+      end loop;
+      Tribullesopt(VMtemp, N);
       Min := VMtemp(I).score;
       Max := Vmtemp(N).score;
       Sco := Max / 4;
@@ -129,16 +133,19 @@ package body p_generation is
    
    function Poids_Score(Q1, Med, Q3 : in Integer; S, F : in Integer) return Integer is
       -- {} => {resultat = valeur du poids à attribuer étant donné un score S}
+      --NewP : Integer;
    begin
       if S > Q3 then
-	 return 4;
+      	 return 8;
       elsif S > Med then
-	 return 3;
+      	 return 4;
       elsif S > Q1 then
-	 return 2;
+      	 return 2;
       else
-	 return 1;
-      end if;
+      	 return 1;
+      end if;      
+      --  newP := Integer(Float(S) + (Float(S)*(Float(S)/Float(F))));
+      --  if NewP > 0 then return NewP; else return 1; end if;
    end;
    
    procedure Generation_Lexique (VD: in Tv_Depeche; C : in T_Categorie; Fl: in String) is
