@@ -19,6 +19,6 @@ begin
    Calcul_Scores(TVD, Rep, Dico, N);
    
    for I in Dico'First..N loop
-      Ecrire_Ligne(Image(I) &" f"& Utrim(Image(Dico(I).Freq), 4) &' '& Dico(I).Mot & Image(Dico(I).Score));
+      Ecrire_Ligne(Image(I) &" f"& Utrim(Image(Dico(I).Freq), 4) &' '& Dico(I).Mot & Image(Dico(I).Score) &" -> "& Image(Integer(Float(Dico(I).Score) + (Float(Dico(I).Score)*(Float(Dico(I).Score)/Float(Dico(I).Freq))))));
    end loop;
 end;
