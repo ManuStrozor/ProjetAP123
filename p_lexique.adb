@@ -31,7 +31,7 @@ package body P_Lexique is
 	 Get_Line(F, Str, ln);
 	 Ind := Index(':', Str);
 	 L(I).Chaine(1..Ind-1) := Str(1..Ind-1);
-	 L(I).Poids := Integer'Value(Str(Ind+2..Ind+2));
+	 L(I).Poids := Integer'Value(Str(Ind+2..Ln));
 	 I := I + 1;
       end loop;
       Close(F);
