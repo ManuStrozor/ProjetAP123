@@ -59,7 +59,7 @@ package body P_Classification is
       type TV_Cnt is array(T_Categorie) of Integer;
       Cnt : TV_Cnt := (others => 0);
       Moy : Float := 0.0;
-      Mx : integer;
+      Mx : T_Categorie;
    begin
       Create(F, Out_File, Nomfic);
       for I in VD'Range loop
@@ -68,8 +68,8 @@ package body P_Classification is
 	 Sc(Culture) := Score(VD(i), Lc);
 	 Sc(Economie) := Score(VD(i), Le);
 	 Sc(Science) := Score(VD(i), Lt);
-         Mx := Max_Score(Sc);
-         Put_Line(F, VD(i).Id &':'& Image(Mx));
+	 Mx := Max_Score(Sc);
+	 Put_Line(F, VD(i).Id &':'& Image(Mx));
 	 if Mx = VD(I).Cat then
 	    Cnt(Mx) := Cnt(Mx) + 1;
 	 end if;
