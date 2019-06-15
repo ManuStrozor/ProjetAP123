@@ -8,25 +8,23 @@ procedure P4 is
    Sc : TV_Score;
    Ind : Integer;
 begin
-   Charge("depeches.txt", Dep);
-   
+   Charge("txt/depeches.txt", Dep);
    loop
       Ecrire("Dépèche numéro :"); Lire(Ind);
       exit when Ind >= 1 and Ind <= 500;
    end loop;
-   
    declare
-      Lp : TV_Lexique(1..Nb_Mots("POLITIQUE.txt"));
-      Ls : TV_Lexique(1..Nb_Mots("SPORTS.txt"));
-      Lc : TV_Lexique(1..Nb_Mots("CULTURE.txt"));
-      Le : TV_Lexique(1..Nb_Mots("ECONOMIE.txt"));
-      Lt : TV_Lexique(1..Nb_Mots("SCIENCES.txt"));
+      Lp : TV_Lexique(1..Nb_Mots("lex/POLITIQUE.txt"));
+      Ls : TV_Lexique(1..Nb_Mots("lex/SPORTS.txt"));
+      Lc : TV_Lexique(1..Nb_Mots("lex/CULTURE.txt"));
+      Le : TV_Lexique(1..Nb_Mots("lex/ECONOMIE.txt"));
+      Lt : TV_Lexique(1..Nb_Mots("lex/SCIENCES.txt"));
    begin
-      Init_Lexique("POLITIQUE.txt", Lp);
-      Init_Lexique("SPORTS.txt", Ls);
-      Init_Lexique("CULTURE.txt", Lc);
-      Init_Lexique("ECONOMIE.txt", Le);
-      Init_Lexique("SCIENCES.txt", Lt);
+      Init_Lexique("lex/POLITIQUE.txt", Lp);
+      Init_Lexique("lex/SPORTS.txt", Ls);
+      Init_Lexique("lex/CULTURE.txt", Lc);
+      Init_Lexique("lex/ECONOMIE.txt", Le);
+      Init_Lexique("lex/SCIENCES.txt", Lt);
       
       Sc(Politique) := Score(Dep(Ind), Lp);
       Sc(Sports) := Score(Dep(Ind), Ls);
@@ -34,14 +32,10 @@ begin
       Sc(Economie) := Score(Dep(Ind), Le);
       Sc(Science) := Score(Dep(Ind), Lt);
    end;
-   
    Affiche(Dep(Ind));
-   
    for I in Sc'Range loop
-      Ecrire_Ligne("Score " & Image(I) & " :" & Image(Sc(I)));
+      Ecrire_Ligne(Image(I) &':'& Image(Sc(I)));
    end loop;
-   
    A_La_Ligne;
-   
    Ecrire_Ligne("Max score :" & Image(Max_Score(Sc)));
 end;

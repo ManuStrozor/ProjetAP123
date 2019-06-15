@@ -11,15 +11,14 @@ procedure P7 is
    N : Integer;
    Min, Q1, Med, Q3, Max : Integer := 0;
 begin
-   Charge("depeches.txt", TVD);
-   
+   Charge("txt/depeches.txt", TVD);
    for I in T_Categorie loop
       N := 0;
       Init_Dico(TVD, I, Dico, N);
       Calcul_Scores(TVD, I, Dico, N);
       
       A_La_Ligne;
-      Ecrire_Ligne(Image(I) & ':');
+      Ecrire_Ligne(Image(I) &':');
       Infos_Scores(Dico, N, Min, Q1, Med, Q3, Max);
       Ecrire("Min:" & Image(Min) & "  ");
       Ecrire("Max:" & Image(Max));

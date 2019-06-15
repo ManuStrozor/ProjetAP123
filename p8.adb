@@ -23,13 +23,13 @@ procedure P8 is
 begin
    Time1 := Clock;
    
-   Charge("depeches.txt", TVD);
+   Charge("txt/depeches.txt", TVD);
    
-   F := (uTrim("POLITIQUE-2.txt", 30),
-	 uTrim("SPORTS-2.txt", 30),
-	 uTrim("CULTURE-2.txt", 30),
-	 uTrim("ECONOMIE-2.txt", 30),
-	 uTrim("SCIENCES-2.txt", 30));
+   F := (uTrim("lex/POLITIQUE-2.txt", 30),
+	 uTrim("lex/SPORTS-2.txt", 30),
+	 uTrim("lex/CULTURE-2.txt", 30),
+	 uTrim("lex/ECONOMIE-2.txt", 30),
+	 uTrim("lex/SCIENCES-2.txt", 30));
    
    for I in F'range loop
       Generation_Lexique(TVD, I, Trim(F(I)));
@@ -39,5 +39,5 @@ begin
    Time2 := Clock;
    Split (Time1, Annee, Mois, Jour, Sec1);
    Split (Time2, Annee, Mois, Jour, Sec2);
-   Put_Line("Duree:" & Day_Duration'Image(Sec2 - Sec1));
+   Put_Line("Durée:" & Day_Duration'Image(Sec2 - Sec1));
 end;

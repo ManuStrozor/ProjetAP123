@@ -23,14 +23,14 @@ procedure P is
 begin
    T1 := Clock;
    
-   Charge("depeches.txt", TVD);
-   Charge("test.txt", TVT);
+   Charge("txt/depeches.txt", TVD);
+   Charge("txt/test.txt", TVT);
    
-   F := (uTrim("POLITIQUE-2.txt", 30),
-	 uTrim("SPORTS-2.txt", 30),
-	 uTrim("CULTURE-2.txt", 30),
-	 uTrim("ECONOMIE-2.txt", 30),
-	 uTrim("SCIENCES-2.txt", 30));
+   F := (uTrim("lex/POLITIQUE-2.txt", 30),
+	 uTrim("lex/SPORTS-2.txt", 30),
+	 uTrim("lex/CULTURE-2.txt", 30),
+	 uTrim("lex/ECONOMIE-2.txt", 30),
+	 uTrim("lex/SCIENCES-2.txt", 30));
    
    for I in F'range loop
       Generation_Lexique(TVD, I, Trim(F(I)));
@@ -49,7 +49,7 @@ begin
       Init_Lexique(Trim(F(Economie)), Le);
       Init_Lexique(Trim(F(Science)), Lt);
       
-      Run(TVT, Lp, Ls, Lc, Le, Lt, "FicRep-2.txt");
+      Run(TVT, Lp, Ls, Lc, Le, Lt, "txt/FicRep-2.txt");
    end;
    
    -- TIME --

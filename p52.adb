@@ -15,27 +15,26 @@ procedure P52 is
 begin
    Time1 := Clock;
    
-   Charge("test.txt", TVD);
-   
+   Charge("txt/test.txt", TVD);
    declare
-      Le: TV_Lexique(1..Nb_Mots("ECONOMIE-2.txt"));
-      Ls: TV_Lexique(1..Nb_Mots("SPORTS-2.txt"));
-      Lc: TV_Lexique(1..Nb_Mots("CULTURE-2.txt"));
-      Lp: TV_Lexique(1..Nb_Mots("POLITIQUE-2.txt"));
-      Lt: TV_Lexique(1..Nb_Mots("SCIENCES-2.txt"));
+      Le: TV_Lexique(1..Nb_Mots("lex/ECONOMIE-2.txt"));
+      Ls: TV_Lexique(1..Nb_Mots("lex/SPORTS-2.txt"));
+      Lc: TV_Lexique(1..Nb_Mots("lex/CULTURE-2.txt"));
+      Lp: TV_Lexique(1..Nb_Mots("lex/POLITIQUE-2.txt"));
+      Lt: TV_Lexique(1..Nb_Mots("lex/SCIENCES-2.txt"));
    begin
-      Init_Lexique("ECONOMIE-2.txt", Le);
-      Init_Lexique("SPORTS-2.txt", Ls);
-      Init_Lexique("CULTURE-2.txt", Lc);
-      Init_Lexique("POLITIQUE-2.txt", Lp);
-      Init_Lexique("SCIENCES-2.txt", Lt);
+      Init_Lexique("lex/ECONOMIE-2.txt", Le);
+      Init_Lexique("lex/SPORTS-2.txt", Ls);
+      Init_Lexique("lex/CULTURE-2.txt", Lc);
+      Init_Lexique("lex/POLITIQUE-2.txt", Lp);
+      Init_Lexique("lex/SCIENCES-2.txt", Lt);
       
-      Run(TVD, Lp, Ls, Lc, Le, Lt, "FicRep-2.txt");
+      Run(TVD, Lp, Ls, Lc, Le, Lt, "txt/FicRep-2.txt");
    end;
    
    -- TIME --
    Time2 := Clock;
    Split (Time1, Annee, Mois, Jour, Sec1);
    Split (Time2, Annee, Mois, Jour, Sec2);
-   Put_Line("Duree:" & Day_Duration'Image(Sec2 - Sec1));
-end;   
+   Put_Line("Durée:" & Day_Duration'Image(Sec2 - Sec1));
+end;

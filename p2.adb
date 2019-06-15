@@ -7,15 +7,14 @@ procedure P2 is
    Ln : Integer;
 begin
    declare
-      Ls : TV_Lexique(1..Nb_Mots("SPORTS.txt"));
+      Ls : TV_Lexique(1..Nb_Mots("lex/SPORTS.txt"));
    begin
-      Init_Lexique("SPORTS.txt", Ls);
-      
+      Init_Lexique("lex/SPORTS.txt", Ls);
       loop
 	 Put("Saisir un mot qui est dans le lexique SPORTS: ");
 	 Get_Line(Rep, Ln);
 	 exit when Rep = QUIT;
-	 Put_line("Le poids du mot " & Rep(1..Ln) & ": " & Integer'Image(Poids_Mot(Rep(1..Ln), Ls)));
+	 Put_line("Poids du mot " & Rep(1..Ln) & ": " & Integer'Image(Poids_Mot(Rep(1..Ln), Ls)));
       end loop;
    end;
-end;   
+end;
