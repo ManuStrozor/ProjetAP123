@@ -15,13 +15,13 @@ procedure P is
    TVD, TVT : TV_Depeche;
    
    -- TIME --
-   Time1, Time2 : Time;
-   Annee : year_number;
-   Mois : month_number;
-   Jour : day_number;
-   Sec1, Sec2 : Day_Duration;
+   T1, T2 : Time;
+   A : year_number;
+   M : month_number;
+   J : day_number;
+   S1, S2 : Day_Duration;
 begin
-   Time1 := Clock;
+   T1 := Clock;
    
    Charge("depeches.txt", TVD);
    Charge("test.txt", TVT);
@@ -53,8 +53,8 @@ begin
    end;
    
    -- TIME --
-   Time2 := Clock;
-   Split (Time1, Annee, Mois, Jour, Sec1);
-   Split (Time2, Annee, Mois, Jour, Sec2);
-   Put_Line("Duree:" & Day_Duration'Image(Sec2 - Sec1));
+   T2 := Clock;
+   Split(T1, A, M, J, S1);
+   Split(T2, A, M, J, S2);
+   Put_Line("Durée:" & Day_Duration'Image(S2-S1));
 end;
