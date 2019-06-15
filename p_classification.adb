@@ -57,26 +57,27 @@ package body P_Classification is
       F : Text_Io.File_Type;
       Sc : TV_Score;
       type TV_Cnt is array(T_Categorie) of Integer;
-      Counter : TV_Cnt := (others => 0);
+      Cnt : TV_Cnt := (others => 0);
       Moy : Float := 0.0;
+      Mx : integer;
    begin
       Create(F, Out_File, Nomfic);
       for I in VD'Range loop
-	 Put_Line(F, VD(i).Id &':'& Image(VD(I).Cat));
 	 Sc(Politique) := Score(VD(i), Lp);
 	 Sc(Sports) := Score(VD(i), Ls);
 	 Sc(Culture) := Score(VD(i), Lc);
 	 Sc(Economie) := Score(VD(i), Le);
 	 Sc(Science) := Score(VD(i), Lt);
-	 if VD(I).Cat = Max_Score(Sc) then
-	    Counter(VD(I).Cat) := Counter(VD(I).Cat) + 1;
+         Mx := Max_Score(Sc);
+         Put_Line(F, VD(i).Id &':'& Image(Mx));
+	 if Mx = VD(I).Cat then
+	    Cnt(Mx) := Cnt(Mx) + 1;
 	 end if;
       end loop;
       for I in T_Categorie loop
-	 Put_Line(F, Image(I) & ':' & Integer'Image(Counter(I)));
-	 Moy := Moy + Float(Counter(I));
+	 Put_Line(F, Image(I) & ':' & Image(Cnt(I)));
+	 Moy := Moy + Float(Cnt(I));
       end loop;
       Put(F, "MOYENNE:" & Image(Moy/5.0));
    end;
-   
-end P_Classification;
+end;
