@@ -43,6 +43,8 @@ package body p_generation is
 	    end if;
 	    VM(I).Mot := Mot;
 	    if N < VM'Last then N := N + 1; end if;
+	 else
+	    VM(I).Freq := VM(I).Freq + 1;
 	 end if;
       end if;
    end;
@@ -51,7 +53,7 @@ package body p_generation is
       -- {} => {Charge Dans VM Tous Les Mots Présents Dans Au Moins Une Dépêche De La Catégorie C Du Vecteur De Dépêches VD. Attention, Même Si Le Mot Est Présent Plusieurs Fois, Il Ne Doit Apparaître Qu'Une Fois Dans Le Vecteur VM. La Procédure Initialise Aussi Tous Les Scores À 0 Et range Dans N Le Nombre De Mots Ajoutés Dans VM }
       I : Integer := VD'First;
    begin
-      VM := (others => ((others => ' '), 0));
+      VM := (others => ((others => ' '), 0, 1));
       while I <= VD'Last and then VD(I).Cat /= C loop
 	 I := I + 1;
       end loop;
@@ -125,7 +127,7 @@ package body p_generation is
       Q3 := Sco * 3;
    end;
    
-   function Poids_Score(Q1, Med, Q3 : in Integer; S : in Integer) return Integer is
+   function Poids_Score(Q1, Med, Q3 : in Integer; S, F : in Integer) return Integer is
       -- {} => {resultat = valeur du poids à attribuer étant donné un score S}
    begin
       if S > Q3 then
@@ -144,7 +146,7 @@ package body p_generation is
      F : File_Type;
      VM : TV_Dico(1..2000);
      N : Integer := 0;
-     Min, Q1, Med, Q3, Max : Integer := 0;
+     Min, Q1, Med, Q3, Max, Poids : Integer := 0;
    begin
       Create(F, Out_File, Fl);
       Init_Dico(Vd, C, VM, N);
@@ -152,7 +154,8 @@ package body p_generation is
       Infos_Scores(VM, N, Min, Q1, Med, Q3, Max);
       for I in Vm'First..N loop
          if VM(I).Score > Min then
-            Put_line(F, Vm(I).Mot & ':' & Integer'Image(Poids_Score(Q1, Med, Q3, Vm(I).Score)));
+	    Poids := Poids_Score(Q1, Med, Q3, Vm(I).Score, VM(I).Freq);
+	    Put_line(F, Vm(I).Mot & ':' & Integer'Image(Poids));
          end if;
       end loop;
       Close(F);

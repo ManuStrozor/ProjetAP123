@@ -5,7 +5,7 @@ package p_generation is
    
    type TR_Entree is record
       Mot : String(1..30);
-      Score : Integer;
+      Score, Freq : Integer;
    end record;
    
    type TV_Dico is array(Integer range <>) of TR_Entree;
@@ -25,8 +25,8 @@ package p_generation is
    procedure Infos_Scores(VM : in TV_Dico; N : in Integer; Min, Q1, M, Q3, Max : in out integer);
    --{} => {Calcul min, Q1, me, Q3, max, et nb entre les quartiles) 
    
-   function Poids_Score(Q1, Med, Q3 : in Integer; S : in Integer) return Integer;
-   -- {} => {resultat = valeur du poids à attribuer étant donné un score S}
+   function Poids_Score(Q1, Med, Q3 : in Integer; S, F : in Integer) return Integer;
+   -- {} => {resultat = valeur du poids à attribuer étant donné un score S et une Frequence F}
    
    procedure Generation_Lexique(VD: in Tv_Depeche; C : in T_Categorie; Fl: in String);
    -- {} => {Cette Procédure Créé Pour La Catégorie C Le Fichier Lexique De Nom Fl À Partir Du Vecteur De Dépêches De Nom VD. Cette Procédure Doit Déclarer Un Vecteur De type TV_Dico Puis Le Remplir En Utilisant Init_Dico, Puis Calcul_Scores Et Enfin Utiliser Le Vecteur Résultant Pour Créer Un Fichier Lexique En Utilisant La Fonction Poids_Score}
