@@ -110,21 +110,22 @@ package body p_generation is
       Tribullesopt(VMtemp, N);
       Min := VMtemp(Vmtemp'First).score;
       Max := Vmtemp(N).score;
+      while I <= Vmtemp'Last and then Vmtemp(i).Score < Min loop
+	 I := I + 1;
+      end loop;
       Sco := Max / 4;
-      Q1 := Vmtemp(sco).score;
-      M := Vmtemp(Sco*2).Score;
-      Q3 := Vmtemp(sco*3).Score;
+      Q1 := Vmtemp(I+Sco).score;
+      M := Vmtemp(I+(Sco*2)).Score;
+      Q3 := Vmtemp(I+(Sco*3)).Score;
    end;
    
    function Poids_Score(Q1, Med, Q3 : in Integer; S : in Integer) return Integer is
       -- {} => {resultat = valeur du poids à attribuer étant donné un score S}
    begin
-      if S > Q3 then
+      if S > Med then
 	 return 3;
-      elsif S > Med then
-	 return 2;
       elsif S > Q1 then
-	 return 1;
+	 return 2;
       else
 	 return 1;
       end if;
