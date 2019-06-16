@@ -2,9 +2,9 @@ with P_Classification; use P_Classification;
 with P_Generation; use P_Generation;
 with P_Depeche; use P_Depeche;
 with P_Lexique; use P_Lexique;
-with P_String; use P_String;
+with P_Chaine; use P_Chaine;
 with Text_Io; use Text_Io;
-with P_Esiut; use P_Esiut;
+
 with Calendar; use Calendar;
 
 procedure P is

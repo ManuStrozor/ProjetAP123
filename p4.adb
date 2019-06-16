@@ -10,7 +10,7 @@ procedure P4 is
 begin
    Charge("txt/test.txt", Dep);
    loop
-      Ecrire("Dépèche numéro :"); Lire(Ind);
+      Ecrire("Dépèche numéro: "); Lire(Ind);
       exit when Ind >= 1 and Ind <= 500;
    end loop;
    declare

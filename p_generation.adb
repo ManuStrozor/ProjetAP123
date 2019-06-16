@@ -70,13 +70,19 @@ package body p_generation is
       -- son score est décrémenté si la dépêche n'est pas dans la catégorie C
       --            et incrémenté si la dépêche       est dans la catégorie C}
       I, Indice : Integer := VD'First;
+      Cat : String(1..30);
    begin
+      Cat := Utrim(Image(C), 30);
+      Minuscule(Cat);
       for I in VD'Range loop
 	 if Vd(I).Cat = C then 
 	    for J in VD(I).Texte'First..VD(I).Nbmots loop
 	       Indice := Recherche(VM, N, VD(I).Texte(J));
 	       if Indice /= -1 then
 		  VM(Indice).Score := VM(Indice).Score + 1;
+		  if Trim(VM(Indice).Mot) = Trim(Cat) then
+		     VM(Indice).Score := VM(Indice).Score + 1;
+		  end if;
 	       end if;
 	    end loop;
 	 else
@@ -84,15 +90,19 @@ package body p_generation is
 	       Indice := Recherche(VM, N, VD(I).Texte(J));
 	       if Indice /= -1 then
 		  VM(Indice).Score := VM(Indice).Score - 1;
+		  if Trim(VM(Indice).Mot) = Trim(Cat) then
+		     VM(Indice).Score := VM(Indice).Score - 1;
+		  end if;
 	       end if;
 	    end loop;
 	 end if;
       end loop;
-   end Calcul_scores;
+   end;
    
-   procedure Infos_Scores(VM : in TV_Dico; N : in Integer; Min,Q1,M,Q3,Max : in out integer)is
-      --{} => {Calcul min, Q1, me, Q3, max, et nb entre les quartiles) 
+   procedure Infos_Scores(VM : in out TV_Dico; N : in Integer; Inf : in out TR_Info) is
+      --{} => {Calcul total, min, q1, med, q3, max, nb positifs et nb entre les quartiles}
       VMtemp : TV_Dico(1..N) := VM(1..N);
+      
       procedure TriBullesOpt(V : in out TV_Dico; N : in integer) is
 	 -- {} => {V trié par ordre croissant}
 	 I : Integer;
@@ -116,56 +126,81 @@ package body p_generation is
       I, Sco : Integer := VMtemp'First;
    begin
       Tribullesopt(VMtemp, N);
-      while I <= N and then VMtemp(I).Score < 0 loop
+      
+      while I <= N and then VMtemp(I).Score <= Inf.Min loop
 	 I := I + 1;
       end loop;
+      
+      Inf.Nb0 := I; -- debut de Nb0 (Min -> Q1)
+      Inf.NbPos := N-I+1;
+      
       for J in I..N loop
-	 VMtemp(J).Score := Integer(Float(VMtemp(J).Score) + (Float(VMtemp(J).Score)*(Float(VMtemp(J).Score)/Float(VMtemp(J).Freq))));
+      	 VMtemp(J).Score := Integer(Float(VMtemp(J).Score) + (Float(VMtemp(J).Score)*(Float(VMtemp(J).Score)/Float(VMtemp(J).Freq))));
       end loop;
       Tribullesopt(VMtemp, N);
-      Min := VMtemp(I).score;
-      Max := Vmtemp(N).score;
-      Sco := Max / 4;
-      Q1 := Sco;
-      M := Sco * 2;
-      Q3 := Sco * 3;
+      
+      Inf.Max := VMtemp(N).score;
+      Sco := Inf.Max / 4;
+      Inf.Q1 := Sco;
+      Inf.Med := Sco * 2;
+      Inf.Q3 := Sco * 3;
+      
+      while I <= N and then VMtemp(I).Score <= Inf.Q1 loop
+	 I := I + 1;
+      end loop;
+      
+      Inf.Nb0 := I-Inf.Nb0;
+      Inf.Nb1 := I; -- debut de Nb1 (Q1 -> Med)
+      
+      while I <= N and then VMtemp(I).Score <= Inf.Med loop
+	 I := I + 1;
+      end loop;
+      
+      Inf.Nb1 := I-Inf.Nb1;
+      Inf.Nb2 := I; -- debut de Nb2 (Med -> Q3)
+      
+      while I <= N and then VMtemp(I).Score <= Inf.Q3 loop
+	 I := I + 1;
+      end loop;
+      
+      Inf.Nb2 := I-Inf.Nb2;
+      Inf.Nb3 := N-I+1;
    end;
    
-   function Poids_Score(Q1, Med, Q3 : in Integer; S, F : in Integer) return Integer is
-      -- {} => {resultat = valeur du poids à attribuer étant donné un score S}
-      --NewP : Integer;
+   function Poids_Score(S, F : in Integer; Inf : in TR_Info) return Integer is
+      -- {} => {resultat = valeur du poids à attribuer étant donné un score S et une fréquence F}
    begin
-      if S > Q3 then
+      if S > Inf.Q3 then
       	 return 8;
-      elsif S > Med then
+      elsif S > Inf.Med then
       	 return 4;
-      elsif S > Q1 then
+      elsif S > Inf.Q1 then
       	 return 2;
       else
       	 return 1;
-      end if;      
-      --  newP := Integer(Float(S) + (Float(S)*(Float(S)/Float(F))));
-      --  if NewP > 0 then return NewP; else return 1; end if;
+      end if;
    end;
    
-   procedure Generation_Lexique (VD: in Tv_Depeche; C : in T_Categorie; Fl: in String) is
+   procedure Generation_Lexique (VD : in Tv_Depeche; C : in T_Categorie; Fl : in String) is
      --   {} => {Cette Procédure Créé Pour La Catégorie C Le Fichier Lexique De Nom Fl À Partir Du Vecteur De Dépêches De Nom VD. Cette Procédure Doit Déclarer Un Vecteur De type TV_Dico Puis Le Remplir En Utilisant Init_Dico, Puis Calcul_Scores Et Enfin Utiliser Le Vecteur Résultant Pour Créer Un Fichier Lexique En Utilisant La Fonction Poids_Score}
      F : File_Type;
      VM : TV_Dico(1..2000);
      N : Integer := 0;
-     Min, Q1, Med, Q3, Max, Poids : Integer := 0;
+     Poids : Integer := 0;
+     Inf : TR_Info := (0, 0, 0, 0, 0,
+		       0, 0, 0, 0, 0);
    begin
       Create(F, Out_File, Fl);
       Init_Dico(Vd, C, VM, N);
       Calcul_Scores(VD, C, VM, N);
-      Infos_Scores(VM, N, Min, Q1, Med, Q3, Max);
+      Infos_Scores(VM, N, Inf);
       for I in Vm'First..N loop
-         if VM(I).Score > Min then
-	    Poids := Poids_Score(Q1, Med, Q3, Vm(I).Score, VM(I).Freq);
+         if VM(I).Score > Inf.Min then
+	    Poids := Poids_Score(Vm(I).Score, VM(I).Freq, Inf);
 	    Put_line(F, Vm(I).Mot & ':' & Integer'Image(Poids));
          end if;
       end loop;
       Close(F);
    end;
    
-end p_generation;
+end;

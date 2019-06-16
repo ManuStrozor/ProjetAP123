@@ -1,6 +1,3 @@
-with P_Esiut; use P_Esiut;
-with Text_IO;with p_chaine;
-
 package body P_Depeche is
    
    --- Affiche une depeche
@@ -16,7 +13,7 @@ package body P_Depeche is
          I:=1;
          -- Affiche les mots de la depeche
          while (I<=D.Nbmots) loop
-            Ecrire(D.Texte(I));
+            Ecrire(Trim(D.Texte(I)) & ' ');
             i:=i+1;
             end loop;
          A_la_ligne;
