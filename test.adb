@@ -63,7 +63,7 @@ procedure Test is
       T2 := Clock;
       Split(T1, A, M, J, S1);
       Split(T2, A, M, J, S2);
-      Put_Line("Durée:" & Day_Duration'Image(S2-S1));
+      --Put_Line("Durée:" & Day_Duration'Image(S2-S1));
 
    exception
       when E_EMPTYLEX =>
@@ -77,9 +77,9 @@ begin
    for A in 1..10 loop
       for B in 1..10 loop
 	 for C in 1..10 loop
-	    for D in 1..10 loop
-	       for E in 1..10 loop
-		  for F in 1..10 loop
+	    for D in C+1..10 loop
+	       for E in D+1..10 loop
+		  for F in E+1..10 loop
 		     P(A,B,C,D,E,F);
 		  end loop;
 	       end loop;
