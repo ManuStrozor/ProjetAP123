@@ -123,16 +123,11 @@ package body p_generation is
       Inf.Med := Sco * 2;
       Inf.Q3 := Sco * 3;
       
-      while I <= N and then VMtemp(I).Score < 0 loop
+      while I <= N and then VMtemp(I).Score <= 0 loop
 	 I := I + 1;
       end loop;
       
       Inf.Nb0 := I; -- debut de Nb0 (Min -> Q1)
-      
-      while I <= N and then VMtemp(I).Score = 0 loop
-	 I := I + 1;
-      end loop;
-      
       Inf.NbPos := N-I+1;
       
       --  for J in I..N loop
@@ -140,21 +135,21 @@ package body p_generation is
       --  end loop;
       --  Tribullesopt(VMtemp, N);
       
-      while I <= N and then VMtemp(I).Score < Inf.Q1 loop
+      while I <= N and then VMtemp(I).Score <= Inf.Q1 loop
 	 I := I + 1;
       end loop;
       
       Inf.Nb0 := I-Inf.Nb0;
       Inf.Nb1 := I; -- debut de Nb1 (Q1 -> Med)
       
-      while I <= N and then VMtemp(I).Score < Inf.Med loop
+      while I <= N and then VMtemp(I).Score <= Inf.Med loop
 	 I := I + 1;
       end loop;
       
       Inf.Nb1 := I-Inf.Nb1;
       Inf.Nb2 := I; -- debut de Nb2 (Med -> Q3)
       
-      while I <= N and then VMtemp(I).Score < Inf.Q3 loop
+      while I <= N and then VMtemp(I).Score <= Inf.Q3 loop
 	 I := I + 1;
       end loop;
       
