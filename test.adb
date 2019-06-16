@@ -9,7 +9,7 @@ with Calendar; use Calendar;
 
 procedure Test is
    
-   procedure P(X, Y : in Integer) is
+   procedure P(X,Y,C,D,E,G : in Integer) is
       
       E_EMPTYLEX : exception;
       type TV_Files is array(T_Categorie) of String(1..30);
@@ -36,7 +36,7 @@ procedure Test is
 	    uTrim("lex/SCIENCES-2.txt", 30));
       
       for I in F'range loop
-	 Generation_Lexique(TVD, I, Trim(F(I)), X, Y);
+	 Generation_Lexique(TVD, I, Trim(F(I)), X,Y,C,D,E,G);
       end loop;
       
       declare
@@ -53,7 +53,7 @@ procedure Test is
 	 Init_Lexique(Trim(F(Science)), Lt);
 	 
 	 If Lp'length /= 0 AND Ls'length /= 0 AND Lc'length /= 0 AND Le'length /= 0 AND Lt'length /= 0 then
-	    Run(TVT, Lp, Ls, Lc, Le, Lt, "txt/FicRep-2.txt", X, Y);
+	    Run(TVT, Lp, Ls, Lc, Le, Lt, "txt/FicRep-2.txt", X,Y,C,D,E,G);
 	 Else
 	    Raise E_EMPTYLEX;
 	 End if;
@@ -74,9 +74,17 @@ procedure Test is
 	 end loop;
    end;
 begin
-   for A in 1..20 loop
-      for B in 1..20 loop
-	 P(A, B);
+   for A in 1..10 loop
+      for B in 1..10 loop
+	 for C in 1..10 loop
+	    for D in 1..10 loop
+	       for E in 1..10 loop
+		  for F in 1..10 loop
+		     P(A,B,C,D,E,F);
+		  end loop;
+	       end loop;
+	    end loop;
+	 end loop;
       end loop;
    end loop;
 end;

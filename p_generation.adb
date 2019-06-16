@@ -158,21 +158,21 @@ package body p_generation is
       Inf.Nb3 := N-I+1;
    end;
    
-   function Poids_Score(S, F : in Integer; Inf : in TR_Info) return Integer is
+   function Poids_Score(S, F : in Integer; Inf : in TR_Info; A,B,C,D : in Integer) return Integer is
       -- {} => {resultat = valeur du poids à attribuer étant donné un score S et une fréquence F}
    begin
       if S > Inf.Q3 then
-      	 return 8;
+      	 return D;
       elsif S > Inf.Med then
-      	 return 4;
+      	 return C;
       elsif S > Inf.Q1 then
-      	 return 2;
+      	 return B;
       else
-      	 return 1;
+      	 return A;
       end if;
    end;
    
-   procedure Generation_Lexique (VD : in Tv_Depeche; C : in T_Categorie; Fl : in String; A, B : in Integer) is
+   procedure Generation_Lexique (VD : in Tv_Depeche; C : in T_Categorie; Fl : in String; A,B,D,E,G,H : in Integer) is
      --   {} => {Cette Procédure Créé Pour La Catégorie C Le Fichier Lexique De Nom Fl À Partir Du Vecteur De Dépêches De Nom VD. Cette Procédure Doit Déclarer Un Vecteur De type TV_Dico Puis Le Remplir En Utilisant Init_Dico, Puis Calcul_Scores Et Enfin Utiliser Le Vecteur Résultant Pour Créer Un Fichier Lexique En Utilisant La Fonction Poids_Score}
      F : File_Type;
      VM : TV_Dico(1..2000);
@@ -187,7 +187,7 @@ package body p_generation is
       Infos_Scores(VM, N, Inf);
       for I in Vm'First..N loop
          if VM(I).Score > Inf.Min then
-	    Poids := Poids_Score(Vm(I).Score, VM(I).Freq, Inf);
+	    Poids := Poids_Score(Vm(I).Score, VM(I).Freq, Inf, D, E, G, H);
 	    Put_line(F, Vm(I).Mot & ':' & Integer'Image(Poids));
          end if;
       end loop;
