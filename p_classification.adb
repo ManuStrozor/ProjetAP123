@@ -1,3 +1,5 @@
+with P_Chaine; use P_Chaine;
+
 package body P_Classification is
    
    function Score(D: in TR_Depeche; L : in TV_Lexique) return Integer is
@@ -65,31 +67,31 @@ package body P_Classification is
       Moy : Float := 0.0;
       Mx : T_Categorie;
       
-      --  function Rech(Mot : in String; L : in TV_Lexique) return Integer is
-      --  	 -- {L non trié},=> {résultat = indice si L contient le mot}
-      --  	 Me, Inf, Sup : Integer;
-      --  begin
-      --  	 if L(L'last).Chaine < Mot then
-      --  	    return L'Last+1;
-      --  	 else
-      --  	    Inf := L'First; Sup := L'Last;
-      --  	    while Inf < Sup loop
-      --  	       Me := (Inf + Sup) / 2 ;
-      --  	       if L(Me).Chaine >= Mot then
-      --  		  Sup := Me;
-      --  	       else
-      --  		  Inf := Me + 1;
-      --  	       end if;
-      --  	    end loop;
-      --  	    if L(Sup).Chaine = Mot then 
-      --  	       return Sup;
-      --  	    else 
-      --  	       return L'Last+1;
-      --  	    end if;
-      --  	 end if;
-      --  end;
-      --type TV_Files is array(T_Categorie) of String(1..30);
-      --Z : TV_Files;
+      function Rech(Mot : in String; L : in TV_Lexique) return Integer is
+      	 -- {L non trié},=> {résultat = indice si L contient le mot}
+      	 Me, Inf, Sup : Integer;
+      begin
+      	 if L(L'last).Chaine < Mot then
+      	    return L'Last+1;
+      	 else
+      	    Inf := L'First; Sup := L'Last;
+      	    while Inf < Sup loop
+      	       Me := (Inf + Sup) / 2 ;
+      	       if L(Me).Chaine >= Mot then
+      		  Sup := Me;
+      	       else
+      		  Inf := Me + 1;
+      	       end if;
+      	    end loop;
+      	    if L(Sup).Chaine = Mot then 
+      	       return Sup;
+      	    else 
+      	       return L'Last+1;
+      	    end if;
+      	 end if;
+      end;
+      type TV_Files is array(T_Categorie) of String(1..30);
+      Z : TV_Files;
    begin
       Create(F, Out_File, Nomfic);
       for I in VD'Range loop
@@ -102,30 +104,30 @@ package body P_Classification is
 	 Put_Line(F, VD(i).Id &':'& Image(Mx));
 	 if Mx = VD(I).Cat then
 	    Cnt(Mx) := Cnt(Mx) + 1;
-	 --  else
-	 --     Ecrire_Ligne(VD(I).Id &":("& Image(VD(I).Cat) &')'& Image(Sc(VD(I).Cat)) & " -> [" & Image(Mx) &']'& Image(Sc(Mx)));
-	 --     for J in VD(I).Texte'First..VD(I).NbMots loop
-	 --        Z := (uTrim("lex/POLITIQUE-2.txt", 30),
-	 --     	     uTrim("lex/SPORTS-2.txt", 30),
-	 --     	     uTrim("lex/CULTURE-2.txt", 30),
-	 --     	     uTrim("lex/ECONOMIE-2.txt", 30),
-	 --     	     uTrim("lex/SCIENCES-2.txt", 30));
-	 --        declare
-	 --     	  L1 : TV_Lexique(1..Nb_Mots(Trim(Z(VD(I).Cat))));
-	 --     	  L2 : TV_Lexique(1..Nb_Mots(Trim(Z(Mx))));
-	 --        begin
-	 --     	  Init_Lexique(Trim(Z(VD(I).Cat)), L1);
-	 --     	  Init_Lexique(Trim(Z(Mx)), L2);
-	 --     	  if Rech(VD(i).Texte(J), L1) /= L1'Last+1 then
-	 --     	     Ecrire('(' & Trim(VD(I).Texte(J)) & ") ");
-	 --     	  elsif Rech(VD(i).Texte(J), L2) /= L2'Last+1 then
-	 --     	     Ecrire('[' & Trim(VD(I).Texte(J)) & "] ");
-	 --     	  else
-	 --     	     Ecrire(Trim(VD(I).Texte(J)) & ' ');
-	 --     	  end if;
-	 --        end;
-	 --     end loop;
-	 --     A_La_Ligne(2);
+	 else
+	    Ecrire_Ligne(VD(I).Id &":("& Image(VD(I).Cat) &')'& Image(Sc(VD(I).Cat)) & " -> [" & Image(Mx) &']'& Image(Sc(Mx)));
+	    for J in VD(I).Texte'First..VD(I).NbMots loop
+	       Z := (uTrim("lex/POLITIQUE-2.txt", 30),
+	    	     uTrim("lex/SPORTS-2.txt", 30),
+	    	     uTrim("lex/CULTURE-2.txt", 30),
+	    	     uTrim("lex/ECONOMIE-2.txt", 30),
+	    	     uTrim("lex/SCIENCES-2.txt", 30));
+	       declare
+	    	  L1 : TV_Lexique(1..Nb_Mots(Trim(Z(VD(I).Cat))));
+	    	  L2 : TV_Lexique(1..Nb_Mots(Trim(Z(Mx))));
+	       begin
+	    	  Init_Lexique(Trim(Z(VD(I).Cat)), L1);
+	    	  Init_Lexique(Trim(Z(Mx)), L2);
+	    	  if Rech(VD(i).Texte(J), L1) /= L1'Last+1 then
+	    	     Ecrire('(' & Trim(VD(I).Texte(J)) & ") ");
+	    	  elsif Rech(VD(i).Texte(J), L2) /= L2'Last+1 then
+	    	     Ecrire('[' & Trim(VD(I).Texte(J)) & "] ");
+	    	  else
+	    	     Ecrire(Trim(VD(I).Texte(J)) & ' ');
+	    	  end if;
+	       end;
+	    end loop;
+	    A_La_Ligne(2);
 	 end if;
       end loop;
       for I in T_Categorie loop
