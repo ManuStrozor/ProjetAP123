@@ -70,8 +70,14 @@ package body P_Classification is
 	 Sc(Science) := Score(VD(i), Lt);
 	 Mx := Max_Score(Sc);
 	 Put_Line(F, VD(i).Id &':'& Image(Mx));
+	 Put_Line(VD(I).Id &':'& Image(VD(I).Cat) & " -> " & Image(Mx));
 	 if Mx = VD(I).Cat then
 	    Cnt(Mx) := Cnt(Mx) + 1;
+	 else
+	    for J in Sc'Range loop
+	       Put(Image(J) &':'& Integer'Image(Sc(J)) &' ');
+	    end loop;
+	    New_Line;
 	 end if;
       end loop;
       for I in T_Categorie loop

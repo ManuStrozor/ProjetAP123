@@ -32,7 +32,7 @@ begin
 	 uTrim("lex/SCIENCES-2.txt", 30));
    
    for I in F'range loop
-      Generation_Lexique(TVD, I, Trim(F(I)));
+      Generation_Lexique(TVD, I, Trim(F(I)), 1, 1, 1, 2, 4, 8);
    end loop;
    
    -- TIME --

@@ -29,7 +29,7 @@ begin
       Init_Lexique("lex/POLITIQUE-2.txt", Lp);
       Init_Lexique("lex/SCIENCES-2.txt", Lt);
       
-      Run(TVD, Lp, Ls, Lc, Le, Lt, "txt/FicRep-2.txt");
+      Run(TVD, Lp, Ls, Lc, Le, Lt, "txt/FicRep-2.txt", 1, 1, 1, 2, 4, 8);
    end;
    
    -- TIME --
