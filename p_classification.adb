@@ -78,6 +78,7 @@ package body P_Classification is
 	       Put(Image(J) &':'& Integer'Image(Sc(J)) &' ');
 	    end loop;
 	    New_Line;
+	    Affiche(VD(I));
 	 end if;
       end loop;
       for I in T_Categorie loop
