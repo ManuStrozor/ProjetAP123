@@ -4,7 +4,7 @@ with P_Depeche; use P_Depeche;
 with P_Lexique; use P_Lexique;
 with P_String; use P_String;
 with Text_Io; use Text_Io;
-
+with P_Esiut; use P_Esiut;
 with Calendar; use Calendar;
 
 procedure P is
@@ -49,10 +49,11 @@ begin
       Init_Lexique(Trim(F(Culture)), Lc);
       Init_Lexique(Trim(F(Economie)), Le);
       Init_Lexique(Trim(F(Science)), Lt);
+      
       If Lp'length /= 0 AND Ls'length /= 0 AND Lc'length /= 0 AND Le'length /= 0 AND Lt'length /= 0 then
-          Run(TVT, Lp, Ls, Lc, Le, Lt, "txt/FicRep-2.txt");
+	 Run(TVT, Lp, Ls, Lc, Le, Lt, "txt/FicRep-2.txt");
       Else
-          Raise E_EMPTYLEX;
+	 Raise E_EMPTYLEX;
       End if;
    end;
    
@@ -62,6 +63,11 @@ begin
    Split(T2, A, M, J, S2);
    Put_Line("Durée:" & Day_Duration'Image(S2-S1));
 
-   exception
-       when E_EMPTYLEX => Put_Line("Au moins un lexique est vide !");
+exception
+   when E_EMPTYLEX =>
+      for I in T_Categorie loop
+	 if Nb_Mots(Trim(F(I))) = 0 then
+	    Put_Line("Le lexique "&Trim(F(I))&" est vide");
+	 end if;
+      end loop;
 end;
