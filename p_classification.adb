@@ -52,7 +52,7 @@ package body P_Classification is
       return Cat;
    end;
    
-   procedure Run (VD : in TV_Depeche; Lp, Ls, Lc, Le, Lt : TV_Lexique; Nomfic : String) is
+   procedure Run (VD : in TV_Depeche; Lp, Ls, Lc, Le, Lt : TV_Lexique; Nomfic : String; A, B : in Integer) is
       -- {} => {Génère le fichier texte réponse Nomfic étant donné les dépêches et les lexiques passés en argument}
       F : Text_Io.File_Type;
       Sc : TV_Score;
@@ -78,6 +78,8 @@ package body P_Classification is
 	 Put_Line(F, Image(I) & ':' & Image(Cnt(I)));
 	 Moy := Moy + Float(Cnt(I));
       end loop;
-      Put(F, "MOYENNE:" & Image(Moy/5.0));
+      Put_Line(F, "MOYENNE:" & Image(Moy/5.0));
+      Close(F);
+      Put_Line("MOYENNE:" & Image(Moy/5.0) & " A:" & Image(A) & " B:" & Image(B));
    end;
 end;
