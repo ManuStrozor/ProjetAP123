@@ -1,8 +1,8 @@
-with P_Generation; use P_Generation;
-with P_Classification; use P_Classification;
 with P_Depeche; use P_Depeche, P_Depeche.P_categorieio;
+with P_Classification; use P_Classification;
+with P_Generation; use P_Generation;
+with P_Chaine; use P_Chaine;
 with P_Esiut; use P_Esiut;
-with P_String; use P_String;
 
 procedure P7 is   
    TVD : TV_Depeche;
@@ -21,4 +21,5 @@ begin
    for I in Dico'First..N loop
       Ecrire_Ligne(Image(I) &" f"& Utrim(Image(Dico(I).Freq), 4) &' '& Dico(I).Mot & Image(Dico(I).Score) &" -> "& Image(Integer(Float(Dico(I).Score) + (Float(Dico(I).Score)*(Float(Dico(I).Score)/Float(Dico(I).Freq))))));
    end loop;
+   
 end;

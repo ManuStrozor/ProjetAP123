@@ -126,11 +126,11 @@ package body P_Classification is
 	 end if;
       end loop;
       for I in T_Categorie loop
-	 Put_Line(F, Image(I) & ':' & Image(Cnt(I)));
+	 Put_Line(F, Image(I) & ':' & Integer'Image(Cnt(I)));
 	 Moy := Moy + Float(Cnt(I));
       end loop;
-      Put_Line(F, "MOYENNE:" & Image(Moy/5.0));
+      Put_Line(F, "MOYENNE:" & Float'Image(Moy/5.0));
       Close(F);
-      Put_Line(Image(Moy/5.0));
+      Put_Line(Float'Image(Moy/5.0));
    end;
 end;

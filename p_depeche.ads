@@ -1,6 +1,5 @@
 with P_Esiut; use P_Esiut;
 with P_Chaine; use P_Chaine;
-with P_String; use P_String;
 with Text_Io; use Text_Io;
 
 package p_depeche is

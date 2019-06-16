@@ -1,6 +1,5 @@
 with P_Depeche; use P_Depeche, P_Depeche.P_CategorieIO;
 with P_Chaine; use P_Chaine;
-with P_String; use P_String;
 with Text_Io; use Text_Io;
 
 package p_generation is

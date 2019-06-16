@@ -1,9 +1,9 @@
-with P_Generation; use P_Generation;
 with P_Classification; use P_Classification;
+with P_Generation; use P_Generation;
 with P_Depeche; use P_Depeche;
 with P_Lexique; use P_Lexique;
+with P_Chaine; use P_Chaine;
 with Text_Io; use Text_Io;
-with P_String; use P_String;
 
 with Calendar; use Calendar;
 
@@ -40,4 +40,5 @@ begin
    Split (Time1, Annee, Mois, Jour, Sec1);
    Split (Time2, Annee, Mois, Jour, Sec2);
    Put_Line("Durée:" & Day_Duration'Image(Sec2 - Sec1));
+   
 end;

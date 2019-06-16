@@ -1,8 +1,9 @@
-with P_Classification, Text_Io, P_Lexique;
-use P_Classification, Text_Io, P_Lexique;
 with P_Depeche; use P_Depeche, P_Depeche.P_CategorieIO;
+with P_Classification; use P_Classification;
+with P_Lexique; use P_Lexique;
+with P_Chaine; use P_Chaine;
 with P_Esiut; use P_Esiut;
-with P_String; use P_String;
+with Text_Io; use Text_Io;
 
 procedure P2 is
    
@@ -27,10 +28,9 @@ begin
    begin
       Init_Lexique(Trim(F(Cat)), L);
       loop
-	 Ecrire("Saisir un mot qui est dans le lexique " & Image(Cat) & ": ");
-	 Lire(Rep);
+	 Ecrire("Saisir un mot qui est dans le lexique " & Image(Cat) & ": "); Lire(Rep);
 	 exit when Rep = QUIT;
-	 Ecrire_ligne("Poids du mot " & Trim(Rep) & ": " & Integer'Image(Poids_Mot(Trim(Rep), L)));
+	 Ecrire_ligne("Poids du mot " & Trim(Rep) & ": " & Image(Poids_Mot(Trim(Rep), L)));
       end loop;
    end;
 end;
