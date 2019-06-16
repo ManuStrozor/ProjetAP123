@@ -3,6 +3,11 @@ with Text_Io; use Text_Io;
 
 package p_generation is
    
+   type TR_Info is record
+      Min, Q1, Med, Q3, Max : Integer;
+      NbPos, Nb0, Nb1, Nb2, Nb3 : Integer;
+   end record;
+   
    type TR_Entree is record
       Mot : String(1..30);
       Score, Freq : Integer;
@@ -22,10 +27,10 @@ package p_generation is
    procedure Calcul_Scores(VD: in Tv_Depeche;C: in T_Categorie; VM: in out Tv_Dico;N: in Integer);
    -- {} => {Cette procédure met à jour les scores des différents mots présents dans VM. Lorsqu'un mot présent dans VM apparaît dans une dépêche du vecteur VD, son score est décrémenté si la dépêche n'est pas dans la catégorie C et incrémenté si la dépêche est dans la catégorie C}
    
-   procedure Infos_Scores(VM : in TV_Dico; N : in Integer; Min, Q1, M, Q3, Max : in out integer);
-   --{} => {Calcul min, Q1, me, Q3, max, et nb entre les quartiles) 
+   procedure Infos_Scores(VM : in TV_Dico; N : in Integer; Inf : in out TR_Info);
+   --{} => {Calcul total, min, q1, med, q3, max, nb positifs et nb entre les quartiles}
    
-   function Poids_Score(Q1, Med, Q3 : in Integer; S, F : in Integer) return Integer;
+   function Poids_Score(S, F : in Integer; Inf : in TR_Info) return Integer;
    -- {} => {resultat = valeur du poids à attribuer étant donné un score S et une Frequence F}
    
    procedure Generation_Lexique(VD: in Tv_Depeche; C : in T_Categorie; Fl: in String);

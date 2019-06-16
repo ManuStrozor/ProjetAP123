@@ -90,8 +90,8 @@ package body p_generation is
       end loop;
    end Calcul_scores;
    
-   procedure Infos_Scores(VM : in TV_Dico; N : in Integer; Min,Q1,M,Q3,Max : in out integer)is
-      --{} => {Calcul min, Q1, me, Q3, max, et nb entre les quartiles) 
+   procedure Infos_Scores(VM : in TV_Dico; N : in Integer; Inf : in out TR_Info) is
+      --{} => {Calcul total, min, q1, med, q3, max, nb positifs et nb entre les quartiles}
       VMtemp : TV_Dico(1..N) := VM(1..N);
       procedure TriBullesOpt(V : in out TV_Dico; N : in integer) is
 	 -- {} => {V trié par ordre croissant}
@@ -116,30 +116,61 @@ package body p_generation is
       I, Sco : Integer := VMtemp'First;
    begin
       Tribullesopt(VMtemp, N);
+      
+      Inf.Max := Vmtemp(N).score;
+      Sco := Inf.Max / 4;
+      Inf.Q1 := Sco;
+      Inf.Med := Sco * 2;
+      Inf.Q3 := Sco * 3;
+      
       while I <= N and then VMtemp(I).Score < 0 loop
 	 I := I + 1;
       end loop;
-      for J in I..N loop
-	 VMtemp(J).Score := Integer(Float(VMtemp(J).Score) + (Float(VMtemp(J).Score)*(Float(VMtemp(J).Score)/Float(VMtemp(J).Freq))));
+      
+      Inf.Nb0 := I; -- debut de Nb0 (Min -> Q1)
+      
+      while I <= N and then VMtemp(I).Score = 0 loop
+	 I := I + 1;
       end loop;
-      Tribullesopt(VMtemp, N);
-      Min := VMtemp(I).score;
-      Max := Vmtemp(N).score;
-      Sco := Max / 4;
-      Q1 := Sco;
-      M := Sco * 2;
-      Q3 := Sco * 3;
+      
+      Inf.NbPos := N-I+1;
+      
+      --  for J in I..N loop
+      --  	 VMtemp(J).Score := Integer(Float(VMtemp(J).Score) + (Float(VMtemp(J).Score)*(Float(VMtemp(J).Score)/Float(VMtemp(J).Freq))));
+      --  end loop;
+      --  Tribullesopt(VMtemp, N);
+      
+      while I <= N and then VMtemp(I).Score < Inf.Q1 loop
+	 I := I + 1;
+      end loop;
+      
+      Inf.Nb0 := I-Inf.Nb0;
+      Inf.Nb1 := I; -- debut de Nb1 (Q1 -> Med)
+      
+      while I <= N and then VMtemp(I).Score < Inf.Med loop
+	 I := I + 1;
+      end loop;
+      
+      Inf.Nb1 := I-Inf.Nb1;
+      Inf.Nb2 := I; -- debut de Nb2 (Med -> Q3)
+      
+      while I <= N and then VMtemp(I).Score < Inf.Q3 loop
+	 I := I + 1;
+      end loop;
+      
+      Inf.Nb2 := I-Inf.Nb2;
+      Inf.Nb3 := N-I+1;
    end;
    
-   function Poids_Score(Q1, Med, Q3 : in Integer; S, F : in Integer) return Integer is
+   function Poids_Score(S, F : in Integer; Inf : in TR_Info) return Integer is
       -- {} => {resultat = valeur du poids à attribuer étant donné un score S}
       --NewP : Integer;
    begin
-      if S > Q3 then
+      if S > Inf.Q3 then
       	 return 8;
-      elsif S > Med then
+      elsif S > Inf.Med then
       	 return 4;
-      elsif S > Q1 then
+      elsif S > Inf.Q1 then
       	 return 2;
       else
       	 return 1;
@@ -153,15 +184,17 @@ package body p_generation is
      F : File_Type;
      VM : TV_Dico(1..2000);
      N : Integer := 0;
-     Min, Q1, Med, Q3, Max, Poids : Integer := 0;
+     Poids : Integer := 0;
+     Inf : TR_Info := (0, 0, 0, 0, 0,
+		       0, 0, 0, 0, 0);
    begin
       Create(F, Out_File, Fl);
       Init_Dico(Vd, C, VM, N);
       Calcul_Scores(VD, C, VM, N);
-      Infos_Scores(VM, N, Min, Q1, Med, Q3, Max);
+      Infos_Scores(VM, N, Inf);
       for I in Vm'First..N loop
-         if VM(I).Score > Min then
-	    Poids := Poids_Score(Q1, Med, Q3, Vm(I).Score, VM(I).Freq);
+         if VM(I).Score > Inf.Min then
+	    Poids := Poids_Score(Vm(I).Score, VM(I).Freq, Inf);
 	    Put_line(F, Vm(I).Mot & ':' & Integer'Image(Poids));
          end if;
       end loop;
