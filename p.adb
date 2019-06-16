@@ -9,6 +9,7 @@ with Calendar; use Calendar;
 
 procedure P is
    
+   E_EMPTYLEX : exception;
    type TV_Files is array(T_Categorie) of String(1..30);
    
    F : TV_Files;
@@ -48,8 +49,11 @@ begin
       Init_Lexique(Trim(F(Culture)), Lc);
       Init_Lexique(Trim(F(Economie)), Le);
       Init_Lexique(Trim(F(Science)), Lt);
-      
-      Run(TVT, Lp, Ls, Lc, Le, Lt, "txt/FicRep-2.txt");
+      If Lp'length /= 0 AND Ls'length /= 0 AND Lc'length /= 0 AND Le'length /= 0 AND Lt'length /= 0 then
+          Run(TVT, Lp, Ls, Lc, Le, Lt, "txt/FicRep-2.txt");
+      Else
+          Raise E_EMPTYLEX;
+      End if;
    end;
    
    -- TIME --
@@ -57,4 +61,7 @@ begin
    Split(T1, A, M, J, S1);
    Split(T2, A, M, J, S2);
    Put_Line("Durée:" & Day_Duration'Image(S2-S1));
+
+   exception
+       when E_EMPTYLEX => Put_Line("Au moins un lexique est vide !");
 end;
