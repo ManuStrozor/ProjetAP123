@@ -1,5 +1,7 @@
 lex/
 txt/
+*.o
+*.ali
 p
 p1
 p2
