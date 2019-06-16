@@ -35,8 +35,9 @@ package body P_Classification is
 	    Total := Total + L(Ind).Poids;
 	 end if;
       end loop;
+      
       return Total;
-   end Score;
+   end;
    
    function Max_Score(VS : in TV_Score) return T_Categorie is
       -- {} => {resultat = Catégorie ayant le score maximal dans VS}
@@ -49,6 +50,7 @@ package body P_Classification is
 	    Cat := I;
 	 end if;
       end loop;
+      
       return Cat;
    end;
    
@@ -131,6 +133,7 @@ package body P_Classification is
       end loop;
       Put_Line(F, "MOYENNE:" & Float'Image(Moy/5.0));
       Close(F);
-      Put_Line(Float'Image(Moy/5.0));
+      Put_Line("Moyenne:" & Float'Image(Moy/5.0));
    end;
+   
 end;

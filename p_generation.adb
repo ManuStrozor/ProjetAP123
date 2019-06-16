@@ -97,7 +97,7 @@ package body p_generation is
 	    end loop;
 	 end if;
       end loop;
-   end Calcul_scores;
+   end;
    
    procedure Infos_Scores(VM : in out TV_Dico; N : in Integer; Inf : in out TR_Info) is
       --{} => {Calcul total, min, q1, med, q3, max, nb positifs et nb entre les quartiles}
@@ -203,4 +203,4 @@ package body p_generation is
       Close(F);
    end;
    
-end p_generation;
+end;
