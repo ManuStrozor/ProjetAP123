@@ -6,12 +6,12 @@ procedure P3 is
 begin
    Charge("txt/depeches.txt", TVD);
    declare
-      Ls : TV_Lexique(1..Nb_Mots("lex/SPORTS.txt"));
+      Ls : TV_Lexique(1..Nb_Mots("lex/SPORTS-2.txt"));
    begin
-      Init_Lexique("lex/SPORTS.txt", Ls);
+      Init_Lexique("lex/SPORTS-2.txt", Ls);
       for I in TVD'Range loop
 	 if TVD(I).Cat = Sports then 
-	    Put_Line(TVD(I).Id & ": " & Integer'Image(Score(TVD(I), Ls)));
+	    Put_Line(TVD(I).Id & ':' & Integer'Image(Score(TVD(I), Ls)));
 	 end if;
       end loop;
    end;

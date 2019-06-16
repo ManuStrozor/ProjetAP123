@@ -6,7 +6,7 @@ with Text_Io; use Text_Io;
 
 procedure P6 is
    TVD : TV_Depeche;
-   Dico : TV_Dico;
+   Dico : TV_Dico(1..2000);
    Nb : Integer := 0;
 begin
    Charge("txt/depeches.txt", TVD);

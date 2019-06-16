@@ -54,7 +54,7 @@ package body P_Classification is
       return Cat;
    end;
    
-   procedure Run (VD : in TV_Depeche; Lp, Ls, Lc, Le, Lt : TV_Lexique; Nomfic : String; A,B,C,D,E,G : in Integer) is
+   procedure Run (VD : in TV_Depeche; Lp, Ls, Lc, Le, Lt : TV_Lexique; Nomfic : String) is
       -- {} => {Génère le fichier texte réponse Nomfic étant donné les dépêches et les lexiques passés en argument}
       
       function Rech(Mot : in String; L : in TV_Lexique) return Integer is
@@ -135,6 +135,5 @@ package body P_Classification is
       Put_Line(F, "MOYENNE:" & Image(Moy/5.0));
       Close(F);
       Put_Line(Image(Moy/5.0));
-      Put_Line("A:" & Image(A) & " B:" & Image(B) & " Min:" & Image(C) & " Q1:" & Image(D) & " Med:" & Image(E) & " Q3:" & Image(G));
    end;
 end;

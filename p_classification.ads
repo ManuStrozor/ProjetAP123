@@ -11,7 +11,7 @@ package P_classification is
    function Max_Score(VS : in TV_Score) return T_Categorie;
    -- {} => {resultat = Catégorie ayant le score maximal dans VS}
    
-   procedure Run (VD : in TV_Depeche; Lp, Ls, Lc, Le, Lt : TV_Lexique; Nomfic : String; A,B,C,D,E,G : in Integer);
+   procedure Run (VD : in TV_Depeche; Lp, Ls, Lc, Le, Lt : TV_Lexique; Nomfic : String);
    -- {} => {Génère le fichier texte réponse Nomfic étant donné les dépêches et les lexiques passés en argument}
    
 end p_classification;

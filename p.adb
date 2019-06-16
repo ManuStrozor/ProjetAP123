@@ -21,7 +21,6 @@ procedure P is
    M : month_number;
    J : day_number;
    S1, S2 : Day_Duration;
-   X, Y : Integer := 1;
 begin
    T1 := Clock;
    
@@ -35,7 +34,7 @@ begin
 	 uTrim("lex/SCIENCES-2.txt", 30));
    
    for I in F'range loop
-      Generation_Lexique(TVD, I, Trim(F(I)), X, Y);
+      Generation_Lexique(TVD, I, Trim(F(I)));
    end loop;
    
    declare
@@ -52,7 +51,7 @@ begin
       Init_Lexique(Trim(F(Science)), Lt);
       
       If Lp'length /= 0 AND Ls'length /= 0 AND Lc'length /= 0 AND Le'length /= 0 AND Lt'length /= 0 then
-	 Run(TVT, Lp, Ls, Lc, Le, Lt, "txt/FicRep-2.txt", X, Y);
+	 Run(TVT, Lp, Ls, Lc, Le, Lt, "txt/FicRep-2.txt");
       Else
 	 Raise E_EMPTYLEX;
       End if;

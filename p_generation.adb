@@ -65,25 +65,34 @@ package body p_generation is
       end loop;
    end;
    
-   procedure Calcul_Scores(VD : in Tv_Depeche; C : in T_Categorie; VM : in out Tv_Dico; N, A, B : in Integer) is
+   procedure Calcul_Scores(VD : in Tv_Depeche; C : in T_Categorie; VM : in out Tv_Dico; N : in Integer) is
       -- {} => {Cette procédure met à jour les scores des différents mots présents dans VM. Lorsqu'un mot présent dans VM apparaît dans une dépêche du vecteur VD,
       -- son score est décrémenté si la dépêche n'est pas dans la catégorie C
       --            et incrémenté si la dépêche       est dans la catégorie C}
       I, Indice : Integer := VD'First;
+      Cat : String(1..30);
    begin
+      Cat := Utrim(Image(C), 30);
+      Minuscule(Cat);
       for I in VD'Range loop
 	 if Vd(I).Cat = C then 
 	    for J in VD(I).Texte'First..VD(I).Nbmots loop
 	       Indice := Recherche(VM, N, VD(I).Texte(J));
 	       if Indice /= -1 then
-		  VM(Indice).Score := VM(Indice).Score + A;
+		  VM(Indice).Score := VM(Indice).Score + 1;
+		  if Trim(VM(Indice).Mot) = Trim(Cat) then
+		     VM(Indice).Score := VM(Indice).Score + 1;
+		  end if;
 	       end if;
 	    end loop;
 	 else
 	    for J in VD(I).Texte'First..VD(I).Nbmots loop
 	       Indice := Recherche(VM, N, VD(I).Texte(J));
 	       if Indice /= -1 then
-		  VM(Indice).Score := VM(Indice).Score - B;
+		  VM(Indice).Score := VM(Indice).Score - 1;
+		  if Trim(VM(Indice).Mot) = Trim(Cat) then
+		     VM(Indice).Score := VM(Indice).Score - 1;
+		  end if;
 	       end if;
 	    end loop;
 	 end if;
@@ -158,21 +167,21 @@ package body p_generation is
       Inf.Nb3 := N-I+1;
    end;
    
-   function Poids_Score(S, F : in Integer; Inf : in TR_Info; A,B,C,D : in Integer) return Integer is
+   function Poids_Score(S, F : in Integer; Inf : in TR_Info) return Integer is
       -- {} => {resultat = valeur du poids à attribuer étant donné un score S et une fréquence F}
    begin
       if S > Inf.Q3 then
-      	 return D;
+      	 return 8;
       elsif S > Inf.Med then
-      	 return C;
+      	 return 4;
       elsif S > Inf.Q1 then
-      	 return B;
+      	 return 2;
       else
-      	 return A;
+      	 return 1;
       end if;
    end;
    
-   procedure Generation_Lexique (VD : in Tv_Depeche; C : in T_Categorie; Fl : in String; A,B,D,E,G,H : in Integer) is
+   procedure Generation_Lexique (VD : in Tv_Depeche; C : in T_Categorie; Fl : in String) is
      --   {} => {Cette Procédure Créé Pour La Catégorie C Le Fichier Lexique De Nom Fl À Partir Du Vecteur De Dépêches De Nom VD. Cette Procédure Doit Déclarer Un Vecteur De type TV_Dico Puis Le Remplir En Utilisant Init_Dico, Puis Calcul_Scores Et Enfin Utiliser Le Vecteur Résultant Pour Créer Un Fichier Lexique En Utilisant La Fonction Poids_Score}
      F : File_Type;
      VM : TV_Dico(1..2000);
@@ -183,11 +192,11 @@ package body p_generation is
    begin
       Create(F, Out_File, Fl);
       Init_Dico(Vd, C, VM, N);
-      Calcul_Scores(VD, C, VM, N, A, B);
+      Calcul_Scores(VD, C, VM, N);
       Infos_Scores(VM, N, Inf);
       for I in Vm'First..N loop
          if VM(I).Score > Inf.Min then
-	    Poids := Poids_Score(Vm(I).Score, VM(I).Freq, Inf, D, E, G, H);
+	    Poids := Poids_Score(Vm(I).Score, VM(I).Freq, Inf);
 	    Put_line(F, Vm(I).Mot & ':' & Integer'Image(Poids));
          end if;
       end loop;
