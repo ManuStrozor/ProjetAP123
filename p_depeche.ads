@@ -1,10 +1,10 @@
-with P_Esiut; use P_Esiut;
 with P_Chaine; use P_Chaine;
+with P_Esiut; use P_Esiut;
 with Text_Io; use Text_Io;
 
 package p_depeche is
    
-   type T_Categorie is (Politique,Sports,Culture,Economie,Science);
+   type T_Categorie is (Politique, Sports, Culture, Economie, Science);
    
    type TV_Score is array(T_Categorie) of Integer;
    
