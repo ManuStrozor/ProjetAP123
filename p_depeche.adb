@@ -1,7 +1,3 @@
-with P_Esiut; use P_Esiut;
-with Text_IO; with p_chaine;
-with P_String; use P_String;
-
 package body P_Depeche is
    
    --- Affiche une depeche

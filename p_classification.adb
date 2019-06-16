@@ -1,5 +1,3 @@
-with P_String; use P_String;
-
 package body P_Classification is
    
    function Score(D: in TR_Depeche; L : in TV_Lexique) return Integer is
