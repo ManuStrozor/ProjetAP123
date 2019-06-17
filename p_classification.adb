@@ -4,37 +4,44 @@ package body P_Classification is
    
    function Score(D: in TR_Depeche; L : in TV_Lexique) return Integer is
       
-      function Rech(Mot : in String; L : in TV_Lexique) return Integer is
+      function Rech(Mot : in String; L : in TV_Lexique; Ln : in Integer) return Integer is
 	 -- {L non trié},=> {résultat = indice si L contient le mot}
 	 Me, Inf, Sup : Integer;
       begin
-	 if L(L'last).Chaine < Mot then
+	 if L(L'last).Chaine(1..Ln) < Mot then
 	    return L'Last+1;
 	 else
 	    Inf := L'First; Sup := L'Last;
 	    while Inf < Sup loop
 	       Me := (Inf + Sup) / 2 ;
-	       if L(Me).Chaine >= Mot then
+	       if L(Me).Chaine(1..Ln) >= Mot then
 		  Sup := Me;
 	       else
 		  Inf := Me + 1;
 	       end if;
 	    end loop;
-	    if L(Sup).Chaine = Mot then 
+	    if L(Sup).Chaine(1..Ln) = Mot then 
 	       return Sup;
 	    else 
 	       return L'Last+1;
 	    end if;
 	 end if;
       end;
-            
+      
       Total : Integer := 0;
       Ind : Natural;
+      M : String(1..30);
    begin
       for I in D.Texte'First..D.Nbmots loop
-	 Ind := Rech(D.Texte(I), L);
+	 M := D.Texte(I);
+	 Ind := Rech(M, L, 30);
 	 if Ind /= L'Last+1 then
 	    Total := Total + L(Ind).Poids;
+	 elsif Trim(M)'Length > 13 then
+	    Ind := Rech(M(1..5), L, 5);
+	    if Ind /= L'Last+1 then
+	       Total := Total + L(Ind).Poids;
+	    end if;
 	 end if;
       end loop;
       
